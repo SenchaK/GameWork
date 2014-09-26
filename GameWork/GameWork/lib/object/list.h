@@ -72,6 +72,12 @@ public :
 		return c;
 	}
 
+	bool isExist(){
+		if( this->m_top )    return true;
+		if( this->m_bottom ) return true;
+		return false;
+	}
+
 	/*
 	 * コンテナを追加する。
 	 * 後ろに追加される
