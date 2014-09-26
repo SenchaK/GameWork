@@ -13,8 +13,10 @@ class Task : public Sencha::Container {
 public :
 	Sencha::List<Sencha::Container>* m_parent;
 	Sencha::List<Sencha::Container> m_child;
+	Task* m_parent_task;
 public :
 	Task(){
+		m_parent_task = NULL;
 		m_parent = NULL;
 	}
 	virtual ~Task(){
@@ -39,6 +41,7 @@ public :
 		T* task = new T();
 		this->m_child.add( task );
 		task->m_parent = &this->m_child;
+		task->m_parent_task = this;
 		task->onInit();
 		return task;
 	}
@@ -87,13 +90,13 @@ public :
 	static void DestroyTask( Task* task ){
 		assert( task );
 		task->onFinish();
-		delete task;
 		task->m_parent->remove( task );
+		delete task;
 	}
 	template<typename T>
-	static Task* InsertTask( Sencha::List<Sencha::Container>* tasklist ){
+	static T* InsertTask( Sencha::List<Sencha::Container>* tasklist ){
 		assert( tasklist );
-		Task* task = new T();
+		T* task = new T();
 		task->m_parent = tasklist;
 		tasklist->add( task );
 		return task;
@@ -107,6 +110,29 @@ private :
 	}
 };
 
+class TaskB : public Task {
+private :
+	int x;
+	int y;
+public :
+	void setPos( int x , int y ){
+		this->x = x;
+		this->y = y;
+	}
+	virtual void onInit(){
+		this->x = 0;
+		this->y = 0;
+	}
+	virtual void onUpdate(){
+		this->y -= 1;
+		if( this->y < 0 ){
+			DestroyTask( this );
+		}
+	}
+	virtual void onDraw(){
+		DrawCircle( x , y , 10 , 0x0000FF );
+	}
+};
 
 class TaskA : public Task {
 private :
@@ -114,6 +140,7 @@ private :
 	int y;
 	int vx;
 	int vy;
+	int frametime;
 public :
 	void setPos( int x , int y ){
 		this->x = x;
@@ -124,16 +151,21 @@ public :
 		y = 0;
 		vx = 8;
 		vy = 1;
+		frametime = 0;
 	}
 	virtual void onUpdate(){
 		x += vx;
 		y += vy;
+		if( frametime == 30 ){
+			this->m_parent_task->insertTask<TaskB>()->setPos( x , y );
+		}
 		if( x >= 640 ){
 			Task::DestroyTask( this );
 		}
+		frametime++;
 	}
 	virtual void onDraw(){
-		DrawFormatString( x , y , 0xFFFFFF , "TaskA" );
+		DrawCircle( x , y , 5 , 0x00FFFF );
 	}
 };
 
@@ -148,7 +180,7 @@ public :
 	~GlobalTask(){
 	}
 	virtual void onUpdate(){
-		if( frametime > 0  && frametime % 2 == 0 ){
+		if( frametime > 0  && frametime % 5 == 0 ){
 			if( frametime < 120 ){
 				insertTask<TaskA>()->setPos( 0 , 240 );
 			}
@@ -159,7 +191,7 @@ public :
 		}
 	}
 	virtual void onDraw(){
-		DrawFormatString( 0 , 20 , 0xFFFFFF , "GlobalTask" );
+		DrawFormatString( 0 , 20 , 0xFFFFFF , "GlobalTask %d" , this->m_child.count() );
 	}
 };
 
@@ -171,6 +203,7 @@ int WINAPI WinMain( HINSTANCE hInstance , HINSTANCE hPrevInstance , LPSTR lpCmdL
 
 
 	Task* global = Task::InsertTask<GlobalTask>( &global_task );
+	
 	while( ProcessMessage() == 0 ){
 		ClsDrawScreen();
 		DxKeyboard::Update();

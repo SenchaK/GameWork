@@ -10,7 +10,7 @@ class MemoryPool {
 private :
 	class memory : public Sencha::Container {
 	public :
-		char buf[64];
+		char buf[128];
 	};
 
 	memory m_memory[256];
