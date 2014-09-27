@@ -1,6 +1,7 @@
 #include "task.h"
 #include "../../lib/object/list.h"
 #include <memory>
+#include "../../DxLib/DxLib.h"
 
 
 namespace Sencha {
@@ -9,54 +10,79 @@ namespace {
 /* ************************************************************* *
  * タスクのメモリ定義
  * ************************************************************* */
-static const int MEMORY_BLOCK_SIZE = 256;
-static const int MEMORY_POOL_SIZE = 512;
 #include "../../lib/memory/memory_pool.h"
 } // namespace 
 
+// ************************************************************** *
+// タスクマネージャ処理部分
+// ************************************************************** *
+// static
+TaskManager& TaskManager::Instance(){
+	static TaskManager instance;
+	return instance;
+}
+
+TaskManager::TaskManager(){
+	memset( collector , 0 , sizeof( collector ) );
+	p = collector;
+}
+
+// 使用しなくなったタスクをチェックに入れる
+void TaskManager::checkUnuse( GameTask* ptask ){
+	*p = ptask;
+	*p++;
+}
+
+// 解放を行う
+void TaskManager::collect(){
+	int count = 0;
+	for( task_p* pos = collector ; pos != p ; *pos++ ){
+		count++;
+		GameTask* task = *pos;
+		assert( task );
+		delete task;
+		*pos = NULL;
+	}
+	p = collector;
+}
 
 // タスク共有メモリプール
 // 固定長プールなのでタスクの領域には注意すること
 static Sencha::Task::MemoryPool task_pool;
 
-// リスト構造のルート部分
-// 子階層にグローバルタスクが存在する
-static Sencha::List<Sencha::Container> global_task;
-
-// static
-void* GameTask::operator new( size_t size ){
+// タスク用メモリ確保関数
+void* DefaultNew( size_t size ){
 	return (GameTask*)task_pool.Malloc();
 }
-// static
-void GameTask::operator delete( void* p ){
+// タスク用メモリ解放関数
+void DefaultDelete( void* p ){
 	task_pool.Free( p );
 }
 
 
-// override
-void GlobalTask::update(){
-	if( global_task.isExist() ){
-		GameTask::UpdateTask( this );
-	}
+// static
+void* GameTask::operator new( size_t size ){
+	return DefaultNew( size );
+}
+// static
+void GameTask::operator delete( void* p ){
+	DefaultDelete( p );
 }
 
-// override
-void GlobalTask::draw(){
-	if( global_task.isExist() ){
-		GameTask::DrawTask( this );
-	}
-}
 
-// override
-void GlobalTask::finish(){
-	if( global_task.isExist() ){
-		GameTask::DestroyTask( this );
-	}
+// static
+void* GlobalTask::operator new( size_t size ){
+	return DefaultNew( size );
+}
+// static
+void GlobalTask::operator delete( void* p ){
+	DefaultDelete( p );
 }
 
 // グローバルタスクを作成する。
 GlobalTask* CreateGlobalTask(){
-	return GameTask::InsertTask<GlobalTask>( &global_task );
+	GlobalTask* task = new GlobalTask();
+	return task;
 }
 
 // 現在のタスク用メモリブロック個数

@@ -93,6 +93,7 @@
     <ClInclude Include="lib\keyboard\interface_keyboard.h" />
     <ClInclude Include="lib\keyboard\virtual_keyboard.h" />
     <ClInclude Include="lib\memory\memory_pool.h" />
+    <ClInclude Include="lib\memory\shared_ptr.h" />
     <ClInclude Include="lib\object\list.h" />
   </ItemGroup>
   <ItemGroup>

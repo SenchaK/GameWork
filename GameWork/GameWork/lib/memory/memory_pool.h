@@ -10,6 +10,7 @@
  * ******************************************************************************* */
 class MemoryPool {
 private :
+	// ƒƒ‚ƒŠƒuƒƒbƒN
 	class memory : public Sencha::Container {
 	public :
 		char buf[MEMORY_BLOCK_SIZE];

@@ -4,15 +4,33 @@
 
 namespace Sencha {
 namespace Task {
+static const int MEMORY_BLOCK_SIZE = 256;
+static const int MEMORY_POOL_SIZE  = 512;
 
+class GameTask;
+class TaskManager {
+	typedef GameTask* task_p;
+private :
+	task_p collector[MEMORY_POOL_SIZE];
+	task_p* p;
+	TaskManager();
+public :
+	static TaskManager& Instance();
+	// 使用しなくなったタスクをチェックに入れる
+	void checkUnuse( GameTask* ptask );
+	// 解放を行う
+	void collect();
+};
 
 // タスク基底クラス
 // ゲーム内のオブジェクトは全てこのタスクを通して処理をする。
 class GameTask : public Sencha::Container {
+	friend class TaskManager;
 private :
 	List<Container>* m_parent;
 	List<Container> m_child;
 	GameTask* m_parent_task;
+	int m_delete_check;
 public :
 	// 子タスクの数を取得
 	int childTaskCount(){
@@ -22,10 +40,11 @@ public :
 	GameTask(){
 		m_parent_task = NULL;
 		m_parent = NULL;
+		m_delete_check = 0;
 	}
-	// 子階層の全てのタスクを削除する
+
+	// デストラクタ
 	virtual ~GameTask(){
-		FinishTask( this );
 	}
 
 	// ---------------------------------------------------------
@@ -43,14 +62,19 @@ public :
 	// ---------------------------------------------------------
 	// 提供機能
 	// ---------------------------------------------------------
+	// 更新
 	virtual void update(){
 		UpdateTask( this );
+		TaskManager::Instance().collect();
 	}
+	// 描画
 	virtual void draw(){
 		DrawTask( this );
+		TaskManager::Instance().collect();
 	}
+	// 子階層の全てのタスクを削除する
 	virtual void finish(){
-		DestroyTask( this );
+		FinishTask( this );
 	}
 
 	// タスクの登録
@@ -59,7 +83,7 @@ public :
 	// 生成に成功した場合、onInit関数を呼び出す
 	// タスクは全て基本的にこの関数からしか生成してはいけない
 	template<typename T>
-	T* insertTask(){
+	T* insertTaskChild(){
 		T* task = new T();
 		this->m_child.add( task );
 		task->m_parent = &this->m_child;
@@ -69,9 +93,17 @@ public :
 	}
 
 	// タスクの登録
-	// 現在のタスクの親階層にタスクを生成する。
+	// 呼び出し元の階層と同じ階層にタスクを生成する。
 	template<typename T>
-	T* insertTaskFromParent(){
+	T* insertTask(){
+		assert( this->m_parent_task );
+		return this->m_parent_task->insertTaskChild<T>();
+	}
+
+	// タスクの登録
+	// 呼び出し元の親階層にタスクを生成する。
+	template<typename T>
+	T* insertTaskParent(){
 		assert( this->m_parent_task );
 		return this->m_parent_task->insertTask<T>();
 	}
@@ -86,6 +118,7 @@ public :
 		if( !task ){
 			return;
 		}
+		task->onFinish();
 		List<Container>::iterator iter = task->m_child.top();
 		while( iter != NULL ){
 			GameTask* task = (GameTask*)iter;
@@ -126,31 +159,25 @@ public :
 	}
 
 	// タスクの破棄
-	// 基本的にこの関数からしかタスクの削除を行ってはいけない
+	// 連結から解除し回収する。
+	// この段階ではタスクに対してdeleteは呼ばれず
+	// update,drawの最後に呼び出す
 	static void DestroyTask( GameTask* task ){
 		assert( task );
-		task->onFinish();
+		assert( task->m_delete_check == 0 );
+		task->m_delete_check = 1;
+		task->finish();
 		task->m_parent->remove( task );
-		delete task;
-	}
-
-	// タスクの挿入
-	// 指定したリストの子階層にタスクを挿入する。
-	template<typename T>
-	static T* InsertTask( Sencha::List<Sencha::Container>* tasklist ){
-		assert( tasklist );
-		T* task = new T();
-		task->m_parent = tasklist;
-		tasklist->add( task );
-		return task;
+		task->m_parent_task = NULL;
+		TaskManager::Instance().checkUnuse( task );
 	}
 private :
 	/* ************************************************** *
 	 * new/delete演算子はアクセスできなくする。
 	 * インスタンス生成したい場合はinsertTaskメソッドを使う。
 	 * 破棄したい場合はDestroyTaskメソッドを使う。
-	 * 別のメモリプールが必要なタスクのみオーバーロードしても良いが、
-	 * 必ずprivateにすること
+	 * 別のメモリプールが必要な場合やログを仕込みたい場合はオーバーロードする
+	 * (friend指定しないでprivateにすると継承先で怒られるので注意)
 	 * ************************************************** */
 	static void* operator new   ( size_t size );
 	static void  operator delete( void* p );
@@ -161,9 +188,8 @@ private :
 // 静的なタスクリストを親とした最上位タスク
 class GlobalTask : public GameTask {
 public :
-	virtual void update() override;
-	virtual void draw() override;
-	virtual void finish() override;
+	static void* operator new   ( size_t size );
+	static void  operator delete( void* p );
 };
 
 // グローバルタスクを生成する。
@@ -171,6 +197,12 @@ GlobalTask* CreateGlobalTask();
 
 // 現在のタスク用メモリブロック個数
 int GetTaskMemoryCount();
+
+// タスクシステムで使用するデフォルトのメモリ確保処理
+void* DefaultNew( size_t size );
+
+// タスクシステムで使用されるデフォルトの解放処理
+void DefaultDelete( void* p );
 
 } // namespace Task
 } // namespace Sencha
