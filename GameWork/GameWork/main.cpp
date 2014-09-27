@@ -45,7 +45,7 @@ public :
 	}
 
 	virtual void onUpdate(){
-		if( frametime == 0 ){
+		if( frametime == 10 ){
 			this->insertTaskChild<Task3>()->set( x + 20 , y + 20 );
 		}
 		if( frametime == 60 ){
@@ -70,15 +70,23 @@ public :
 	virtual void onInit(){
 		frametime = 0;
 		printfDx( "MainTask Init\n" );
-		this->insertTaskChild<Task2>()->set(   0 , 40 );
-		this->insertTaskChild<Task2>()->set(  50 , 40 );
-		this->insertTaskChild<Task2>()->set( 100 , 40 );
-		this->insertTaskChild<Task2>()->set( 150 , 40 );
 	}
 
 	virtual void onUpdate(){
-		if( frametime == 120 ){
-			Sencha::Task::GameTask::DestroyTask( this );
+		if( frametime == 30 ){
+			this->insertTaskChild<Task2>()->set(   0 , 40 );
+			this->insertTaskChild<Task2>()->set(  50 , 40 );
+			this->insertTaskChild<Task2>()->set( 100 , 40 );
+			this->insertTaskChild<Task2>()->set( 150 , 40 );
+		}
+		if( frametime == 200 ){
+			this->insertTaskChild<Task2>()->set(   0 , 40 );
+			this->insertTaskChild<Task2>()->set(  50 , 40 );
+			this->insertTaskChild<Task2>()->set( 100 , 40 );
+			this->insertTaskChild<Task2>()->set( 150 , 40 );
+		}
+		if( frametime == 250 ){
+			DestroyTask( this );
 		}
 		frametime++;
 	}
@@ -95,8 +103,6 @@ public :
 
 
 int WINAPI WinMain( HINSTANCE hInstance , HINSTANCE hPrevInstance , LPSTR lpCmdLine , int nShowCmd ){
-	AllocConsole();
-	freopen( "CON" , "w" , stdout );
 	ChangeWindowMode( TRUE );
 	DxLib_Init();
 	SetDrawScreen( DX_SCREEN_BACK );
@@ -110,8 +116,6 @@ int WINAPI WinMain( HINSTANCE hInstance , HINSTANCE hPrevInstance , LPSTR lpCmdL
 		ScreenFlip();
 	}
 
-	FreeConsole();
-	fclose( stdout );
 	Sencha::Task::GameTask::DestroyTask( global );
 	DxLib_End();
 	return 0;

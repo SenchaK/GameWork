@@ -15,6 +15,7 @@ private :
 	task_p* p;
 	TaskManager();
 public :
+	// インスタンス取得
 	static TaskManager& Instance();
 	// 使用しなくなったタスクをチェックに入れる
 	void checkUnuse( GameTask* ptask );
@@ -63,20 +64,11 @@ public :
 	// 提供機能
 	// ---------------------------------------------------------
 	// 更新
-	virtual void update(){
-		UpdateTask( this );
-		TaskManager::Instance().collect();
-	}
+	virtual void update();
 	// 描画
-	virtual void draw(){
-		DrawTask( this );
-		TaskManager::Instance().collect();
-	}
+	virtual void draw();
 	// 子階層の全てのタスクを削除する
-	virtual void finish(){
-		FinishTask( this );
-	}
-
+	virtual void finish();
 	// タスクの登録
 	// 現在のタスクの子階層にタスクを生成する
 	// 生成されたタスクは親タスクの情報と親リストの情報の二つを持つように作る。
@@ -111,66 +103,20 @@ public :
 	/* ***********************************************************************
 	 * Static Method
 	 * *********************************************************************** */
-
 	// デストラクタ時に呼び出す。
 	// 所持する子階層のタスクを全て削除する
-	static void FinishTask( GameTask* task ){
-		if( !task ){
-			return;
-		}
-		task->onFinish();
-		List<Container>::iterator iter = task->m_child.top();
-		while( iter != NULL ){
-			GameTask* task = (GameTask*)iter;
-			GameTask* next = (GameTask*)iter->next;
-			GameTask::DestroyTask( task );
-			iter = next;
-		}
-	}
-
+	static void FinishTask( GameTask* task );
 	// タスクへの更新処理を走らせる
-	static void UpdateTask( GameTask* task ){
-		if( !task ){
-			return;
-		}
-		task->onUpdate();
-		List<Container>::iterator iter = task->m_child.top();
-		while( iter != NULL ){
-			GameTask* task = (GameTask*)iter;
-			GameTask* next = (GameTask*)task->next;
-			UpdateTask( task );
-			iter = next;
-		}
-	}
-
+	static void UpdateTask( GameTask* task );
 	// タスクへの描画処理を走らせる
-	static void DrawTask( GameTask* task ){
-		if( !task ){
-			return;
-		}
-		task->onDraw();
-		List<Container>::iterator iter = task->m_child.top();
-		while( iter != NULL ){
-			GameTask* task = (GameTask*)iter;
-			GameTask* next = (GameTask*)task->next;
-			DrawTask( task );
-			iter = next;
-		}
-	}
-
+	static void DrawTask( GameTask* task );
+	// ************************************************** *
 	// タスクの破棄
 	// 連結から解除し回収する。
 	// この段階ではタスクに対してdeleteは呼ばれず
 	// update,drawの最後に呼び出す
-	static void DestroyTask( GameTask* task ){
-		assert( task );
-		assert( task->m_delete_check == 0 );
-		task->m_delete_check = 1;
-		task->finish();
-		task->m_parent->remove( task );
-		task->m_parent_task = NULL;
-		TaskManager::Instance().checkUnuse( task );
-	}
+	// ************************************************** *
+	static void DestroyTask( GameTask* task );
 private :
 	/* ************************************************** *
 	 * new/delete演算子はアクセスできなくする。
