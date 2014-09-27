@@ -1,8 +1,8 @@
 #include <cassert>
 #include "app_input.h"
-#include "keyboard/DxJoypad.h"
-#include "keyboard/DxKey.h"
-#include "../DxLib/DxLib.h"
+#include "../keyboard/DxJoypad.h"
+#include "../keyboard/DxKey.h"
+#include "../../DxLib/DxLib.h"
 
 namespace {
 	struct keytableS {

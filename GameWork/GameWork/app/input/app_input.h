@@ -1,6 +1,6 @@
 #pragma once
-#include "../lib/keyboard/virtual_keyboard.h"
-#include "../lib/keyboard/interface_keyboard.h"
+#include "../../lib/keyboard/virtual_keyboard.h"
+#include "../../lib/keyboard/interface_keyboard.h"
 
 
 const unsigned int MAX_PLAYER  = 4;

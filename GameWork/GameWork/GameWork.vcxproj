@@ -77,17 +77,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="app\app_input.cpp" />
+    <ClCompile Include="app\input\app_input.cpp" />
     <ClCompile Include="app\keyboard\DxJoypad.cpp" />
     <ClCompile Include="app\keyboard\DxKey.cpp" />
-    <ClCompile Include="app\task.cpp" />
+    <ClCompile Include="app\task\task.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="app\app_input.h" />
+    <ClInclude Include="app\input\app_input.h" />
     <ClInclude Include="app\keyboard\DxJoypad.h" />
     <ClInclude Include="app\keyboard\DxKey.h" />
-    <ClInclude Include="app\task.h" />
+    <ClInclude Include="app\task\task.h" />
     <ClInclude Include="DxLib\DxDirectX.h" />
     <ClInclude Include="DxLib\DxLib.h" />
     <ClInclude Include="lib\keyboard\interface_keyboard.h" />

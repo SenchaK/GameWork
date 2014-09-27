@@ -1,9 +1,5 @@
 #include "DxLib\DxLib.h"
-#include "app\keyboard\DxKey.h"
-#include "app\keyboard\DxJoypad.h"
-#include "app\app_input.h"
-#include "lib\object\list.h"
-#include "app\task.h"
+#include "app\task\task.h"
 #include <cassert>
 
 
@@ -16,9 +12,6 @@ int WINAPI WinMain( HINSTANCE hInstance , HINSTANCE hPrevInstance , LPSTR lpCmdL
 	Sencha::Task::GameTask* global = Sencha::Task::CreateGlobalTask();
 	while( ProcessMessage() == 0 ){
 		ClsDrawScreen();
-		DxKeyboard::Update();
-		DxJoypad::Update();
-
 		global->update();
 		global->draw();
 		DrawFormatString( 0 , 0 , 0xFF00FF , "MemoryPool %d" , Sencha::Task::GetTaskMemoryCount() );

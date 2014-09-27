@@ -1,6 +1,6 @@
 #pragma once
 #include <stdio.h>
-#include "../lib/object/list.h"
+#include "../../lib/object/list.h"
 
 namespace Sencha {
 namespace Task {
@@ -10,8 +10,8 @@ namespace Task {
 // ゲーム内のオブジェクトは全てこのタスクを通して処理をする。
 class GameTask : public Sencha::Container {
 private :
-	Sencha::List<Sencha::Container>* m_parent;
-	Sencha::List<Sencha::Container> m_child;
+	List<Container>* m_parent;
+	List<Container> m_child;
 	GameTask* m_parent_task;
 public :
 	// 子タスクの数を取得
@@ -86,7 +86,7 @@ public :
 		if( !task ){
 			return;
 		}
-		Sencha::List<Sencha::Container>::iterator iter = task->m_child.top();
+		List<Container>::iterator iter = task->m_child.top();
 		while( iter != NULL ){
 			GameTask* task = (GameTask*)iter;
 			GameTask* next = (GameTask*)iter->next;
@@ -101,7 +101,7 @@ public :
 			return;
 		}
 		task->onUpdate();
-		Sencha::List<Sencha::Container>::iterator iter = task->m_child.top();
+		List<Container>::iterator iter = task->m_child.top();
 		while( iter != NULL ){
 			GameTask* task = (GameTask*)iter;
 			GameTask* next = (GameTask*)task->next;
@@ -116,7 +116,7 @@ public :
 			return;
 		}
 		task->onDraw();
-		Sencha::List<Sencha::Container>::iterator iter = task->m_child.top();
+		List<Container>::iterator iter = task->m_child.top();
 		while( iter != NULL ){
 			GameTask* task = (GameTask*)iter;
 			GameTask* next = (GameTask*)task->next;
@@ -145,8 +145,15 @@ public :
 		return task;
 	}
 private :
-	static void* operator new( size_t size );
-	static void operator delete( void* p );
+	/* ************************************************** *
+	 * new/delete演算子はアクセスできなくする。
+	 * インスタンス生成したい場合はinsertTaskメソッドを使う。
+	 * 破棄したい場合はDestroyTaskメソッドを使う。
+	 * 別のメモリプールが必要なタスクのみオーバーロードしても良いが、
+	 * 必ずprivateにすること
+	 * ************************************************** */
+	static void* operator new   ( size_t size );
+	static void  operator delete( void* p );
 };
 
 

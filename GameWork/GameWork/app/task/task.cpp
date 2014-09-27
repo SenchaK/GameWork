@@ -1,5 +1,5 @@
 #include "task.h"
-#include "../lib/object/list.h"
+#include "../../lib/object/list.h"
 #include <memory>
 
 
@@ -11,7 +11,7 @@ namespace {
  * ************************************************************* */
 static const int MEMORY_BLOCK_SIZE = 256;
 static const int MEMORY_POOL_SIZE = 512;
-#include "../lib/memory/memory_pool.h"
+#include "../../lib/memory/memory_pool.h"
 } // namespace 
 
 
