@@ -107,7 +107,8 @@ int WINAPI WinMain( HINSTANCE hInstance , HINSTANCE hPrevInstance , LPSTR lpCmdL
 	DxLib_Init();
 	SetDrawScreen( DX_SCREEN_BACK );
 	Sencha::Task::GameTask* global = Sencha::Task::CreateGlobalTask();
-	global->insertTaskChild<MainTask>();
+	Sencha::Task::GameTask* task = global->insertTaskChild<MainTask>();
+
 	while( ProcessMessage() == 0 ){
 		ClsDrawScreen();
 		global->update();

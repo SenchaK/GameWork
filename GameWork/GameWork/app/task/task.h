@@ -69,6 +69,22 @@ public :
 	virtual void draw();
 	// 子階層の全てのタスクを削除する
 	virtual void finish();
+	// 親から切り離す
+	void removeTask(){
+		this->m_parent->remove( this );
+		this->m_parent = NULL;
+		this->m_parent_task = NULL;
+	}
+	// 生成済みのタスクをリストに登録
+	// insertと違い生成しない為、onInitも呼ばれない
+	// 登録される側のタスクは親子階層を持っていない状態であることが前提(事前にremoveしておくこと)
+	void entryTask( GameTask* task ){
+		assert( !task->m_parent );
+		assert( !task->m_parent_task );
+		this->m_child.add( task );
+		task->m_parent = &this->m_child;
+		task->m_parent_task = this;
+	}
 	// タスクの登録
 	// 現在のタスクの子階層にタスクを生成する
 	// 生成されたタスクは親タスクの情報と親リストの情報の二つを持つように作る。
