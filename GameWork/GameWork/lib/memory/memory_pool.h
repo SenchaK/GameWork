@@ -1,26 +1,24 @@
-/* ******************************************************************************* *
- * このファイルはメモリプールを定義したいスコープにインクルードする。
- * 必ずインクルード先のソースファイルでは
- * ・MEMORY_BLOACK_SIZE ... メモリブロックの大きさ
- * ・MEMORY_POOL_SIZE   ... メモリプールの大きさ
- * の2つの定数を定義する
- * <memory>
- * "list.h"
- * は必ずインクルードすること
- * ******************************************************************************* */
+#pragma once
+#include "../object/list.h"
+#include <memory>
+
+namespace Sencha {
+
+
+template<size_t memory_block_size,size_t memory_pool_size>
 class MemoryPool {
 private :
 	// メモリブロック
 	class memory : public Sencha::Container {
 	public :
-		char buf[MEMORY_BLOCK_SIZE];
+		char buf[memory_block_size];
 	};
-	memory m_memory[MEMORY_POOL_SIZE];
+	memory m_memory[memory_pool_size];
 	List<memory> m_list;
 public :
 	MemoryPool(){
 		memset( m_memory , 0 , sizeof( m_memory ) );
-		for( size_t i = 0 ; i < MEMORY_POOL_SIZE ; i++ ){
+		for( size_t i = 0 ; i < memory_pool_size ; i++ ){
 			m_list.add( &m_memory[i] );
 		}
 	}
@@ -38,3 +36,5 @@ public :
 		m_list.add( (memory*)p );
 	}
 };
+
+} // namespace Sencha

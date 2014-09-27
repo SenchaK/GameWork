@@ -103,12 +103,13 @@ public :
 
 
 int WINAPI WinMain( HINSTANCE hInstance , HINSTANCE hPrevInstance , LPSTR lpCmdLine , int nShowCmd ){
+	using namespace Sencha::Task;
+
 	ChangeWindowMode( TRUE );
 	DxLib_Init();
 	SetDrawScreen( DX_SCREEN_BACK );
-	Sencha::Task::GameTask* global = Sencha::Task::CreateGlobalTask();
-	Sencha::Task::GameTask* task = global->insertTaskChild<MainTask>();
-
+	GameTask* global = CreateGlobalTask();
+	GameTask* task = global->insertTaskChild<MainTask>();
 	while( ProcessMessage() == 0 ){
 		ClsDrawScreen();
 		global->update();
@@ -117,7 +118,7 @@ int WINAPI WinMain( HINSTANCE hInstance , HINSTANCE hPrevInstance , LPSTR lpCmdL
 		ScreenFlip();
 	}
 
-	Sencha::Task::GameTask::DestroyTask( global );
+	GameTask::DestroyTask( global );
 	DxLib_End();
 	return 0;
 }

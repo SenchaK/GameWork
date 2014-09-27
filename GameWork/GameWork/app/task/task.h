@@ -25,13 +25,15 @@ public :
 
 // タスク基底クラス
 // ゲーム内のオブジェクトは全てこのタスクを通して処理をする。
+// super  8byte
+// vtable 4byte
 class GameTask : public Sencha::Container {
 	friend class TaskManager;
 private :
-	List<Container>* m_parent;
-	List<Container> m_child;
-	GameTask* m_parent_task;
-	int m_delete_check;
+	List<Container>* m_parent; // 4byte
+	List<Container> m_child  ; // 8byte
+	GameTask* m_parent_task  ; // 4byte
+	int m_delete_check       ; // 4byte
 public :
 	// 子タスクの数を取得
 	int childTaskCount(){
@@ -147,7 +149,7 @@ private :
 
 
 // グローバルタスク
-// 静的なタスクリストを親とした最上位タスク
+// 最上位タスク
 class GlobalTask : public GameTask {
 public :
 	static void* operator new   ( size_t size );

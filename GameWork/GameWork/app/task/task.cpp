@@ -2,16 +2,13 @@
 #include "../../lib/object/list.h"
 #include <memory>
 #include "../../DxLib/DxLib.h"
-
+#include "../../lib/memory/memory_pool.h"
 
 namespace Sencha {
 namespace Task {
-namespace {
-/* ************************************************************* *
- * タスクのメモリ定義
- * ************************************************************* */
-#include "../../lib/memory/memory_pool.h"
-} // namespace 
+// タスク共有メモリプール
+// 固定長プールなのでタスクの領域には注意すること
+static Sencha::MemoryPool<MEMORY_BLOCK_SIZE,MEMORY_POOL_SIZE> task_pool;
 
 // ************************************************************** *
 // タスクマネージャ処理部分
@@ -46,9 +43,7 @@ void TaskManager::collect(){
 	p = collector;
 }
 
-// タスク共有メモリプール
-// 固定長プールなのでタスクの領域には注意すること
-static Sencha::Task::MemoryPool task_pool;
+
 
 // タスク用メモリ確保関数
 void* DefaultNew( size_t size ){

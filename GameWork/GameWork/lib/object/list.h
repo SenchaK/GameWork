@@ -50,7 +50,7 @@ class List {
 public :
 	typedef T* container;
 	typedef T* iterator;
-public :
+private :
 	container m_top;
 	container m_bottom;
 public :
