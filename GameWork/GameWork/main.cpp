@@ -5,45 +5,61 @@
 #include <crtdbg.h>
 #include <vector>
 
-class GameObject : public Sencha::Task::GameTask {
-protected :
-	float m_x;
-	float m_y;
-public  :
-	GameObject(){
-		this->m_x = 0;
-		this->m_y = 0;
-	}
-	GameObject* pos( float x , float y ){
-		this->m_x = x;
-		this->m_y = y;
-		return this;
+struct Vec2 {
+	float x;
+	float y;
+	void set( float x , float y ){
+		this->x = x;
+		this->y = y;
 	}
 };
 
-class PictureObject : public GameObject {
+class GameObject : public Sencha::Task::GameTask {
+protected :
+	Vec2 m_pos;
+public  :
+	GameObject(){
+		this->m_pos.set( 0 , 0 );
+	}
+	void pos( float x , float y ){
+		this->m_pos.set( x , y );
+	}
+	void pos( Vec2 pos ){
+		this->m_pos = pos;
+	}
+};
+
+// レイアウト管理を行う。
+// GameObjectクラスが子階層に存在する場合、座標を
+// デフォルトのupdateではなく
+class Layout : public GameObject {
+};
+
+class Picture : public GameObject {
 private :
 	const Sencha::Sprite* m_sprite;
 	float m_ExRate;
 	float m_Angle;
-	bool m_Turn;
+	unsigned char m_Turn;
+	unsigned char m_Trans;
+	unsigned char m_Reserve1;
+	unsigned char m_Reserve2;
 public  :
 	virtual void onInit() override {
 		this->m_ExRate = 1.0f;
 		this->m_Angle = 0.0f;
-		this->m_Turn = false;
+		this->m_Turn = FALSE;
+		this->m_Trans = TRUE;
 	}
-	void set( const Sencha::Sprite* sprite , float x , float y ){
+	void setSprite( const Sencha::Sprite* sprite ){
 		assert( sprite );
 		this->m_sprite = sprite;
-		this->m_x = x;
-		this->m_y = y;
 	}
 	virtual void onDraw() override {
 		if( !this->m_sprite ){
 			return;
 		}
-		DrawRotaGraphF( this->m_x , this->m_y , this->m_ExRate , this->m_Angle , this->m_sprite->handle() , TRUE , this->m_Turn );
+		DrawRotaGraphF( this->m_pos.x , this->m_pos.y , this->m_ExRate , this->m_Angle , this->m_sprite->handle() , this->m_Trans , this->m_Turn );
 	}
 };
 
@@ -54,13 +70,13 @@ public  :
 	virtual void onInit(){
 		Sencha::SpriteCollectionData::tabledefineS dataDefine[] = {
 			{ 1 , "test1" , "resource/img/test1.bmp" , 1 , 1 } , 
-			{ 2 , "right" , "scr_right.png" , 1 , 1 } , 
+			{ 5 , "right" , "scr_right.png"          , 1 , 1 } , 
 		};
 		frametime = 0;
 		Sencha::ResourceManager::getInstance()->getSprite()->insertCollection( "collection1" , dataDefine , sizeof( dataDefine ) / sizeof( *dataDefine ) );
 		const Sencha::SpriteCollection* coll = Sencha::ResourceManager::getInstance()->getSprite()->findCollection( "collection1" );
-		this->insertTaskChild<PictureObject>()->set( coll->findName( "test1" ) , 320 , 240 );
-		this->insertTaskChild<PictureObject>()->set( coll->findId( 2 ) , 100 , 100 );
+		this->insertTaskChild<Picture>()->setSprite( coll->findName( "test1" ) );
+		this->insertTaskChild<Picture>()->setSprite( coll->findId( 2 ) );
 	}
 	virtual void onUpdate(){
 		frametime++;
@@ -90,6 +106,9 @@ int WINAPI WinMain( HINSTANCE hInstance , HINSTANCE hPrevInstance , LPSTR lpCmdL
 	GameTask* mainTask = new GameMainTask();
 	mainTask->onInit();
 	while( ProcessMessage() == 0 ){
+		if( CheckHitKey( KEY_INPUT_ESCAPE ) ){
+			break;
+		}
 		ClsDrawScreen();
 		mainTask->update();
 		mainTask->draw();
@@ -98,6 +117,7 @@ int WINAPI WinMain( HINSTANCE hInstance , HINSTANCE hPrevInstance , LPSTR lpCmdL
 	}
 	mainTask->onFinish();
 	GameTask::DestroyTask( mainTask );
+	Sencha::ResourceManager::finalize();
 	DxLib_End();
 	return 0;
 }

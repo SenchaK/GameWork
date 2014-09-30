@@ -11,6 +11,10 @@ private :
 	ResourceManager(){
 		m_sprite = new SpriteManager();
 	}
+	void release(){
+		m_sprite->clearCollection();
+		delete m_sprite;
+	}
 public  :
 	SpriteManager* getSprite(){
 		return m_sprite;
@@ -20,6 +24,10 @@ public  :
 			instance = new ResourceManager();
 		}
 		return instance;
+	}
+	static void finalize(){
+		getInstance()->release();
+		delete instance;
 	}
 };
 
