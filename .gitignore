@@ -15,6 +15,12 @@
 *.rc
 *.idb
 *.lib
-GameWork/GameWork/DxLib/DxLib.h
 *.db
+GameWork/GameWork/DxLib/DxLib.h
 GameWork/GameWork/DxLib/DxDirectX.h
+GameWork/GameWork/DxLib/DxCompileConfig.h
+GameWork/GameWork/DxLib/DxDataType.h
+GameWork/GameWork/DxLib/DxDataTypeWin.h
+GameWork/GameWork/DxLib/DxPixelShader.h
+GameWork/GameWork/DxLib/DxVertexShader.h
+GameWork/GameWork/DxLib/DxLib.txt

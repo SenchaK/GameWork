@@ -2,7 +2,7 @@
 //
 //		ＤＸライブラリ　コンパイルコンフィグヘッダファイル
 //
-//				Ver 3.09 
+//				Ver 3.12e
 //
 // ----------------------------------------------------------------------------
 
@@ -16,7 +16,10 @@
 #ifndef __DXCOMPILECONFIG_H__
 #define __DXCOMPILECONFIG_H__
 
-// スタティックライブラリ生成時ライブラリ機能制限用定義部 ---------------------
+// スタティックライブラリ生成時ライブラリ機能制限用定義 -----------------------
+
+// namespace DxLib を使用する場合は次のコメントを外してください
+#define DX_USE_NAMESPACE
 
 // インラインアセンブラを使用しないソースコードでコンパイルする場合は以下のコメントアウトを外してください
 //#define DX_NON_INLINE_ASM
@@ -49,6 +52,10 @@
 // ＰＮＧ画像の読みこみ機能がいらない方は次のコメントを外してください
 // ※DxUseCLib.lib も再コンパイルする必要があります
 //#define DX_NON_PNGREAD
+
+// ＴＩＦＦ画像の読みこみ機能がいらない方は次のコメントを外してください
+// ※DxUseCLib.lib も再コンパイルする必要があります
+//#define DX_NON_TIFFREAD
 
 // GraphFilter や GraphBlend を使用しない方は次のコメントを外して下さい
 //#define DX_NON_FILTER
@@ -133,6 +140,12 @@
 // 入力機能を無効にする場合は次のコメントを外して下さい
 //#define DX_NON_INPUT
 
+// マルチスレッドを使用しない場合は次のコメントを外してください
+//#define DX_NON_MULTITHREAD
+
+// 各ハンドルのエラーチェックを無効にする場合は次のコメントを外してください( 若干高速化される代わりに無効なハンドルを関数に渡すと即不正なメモリアクセスエラーが発生するようになります )
+//#define DX_NON_HANDLE_ERROR_CHECK
+
 // 軽量バージョンのＤＸライブラリを生成する場合は次のコメントを外してください
 //#define DX_LIB_LITEVER
 
@@ -148,6 +161,15 @@
 #define DX_NON_BEEP
 #define DX_NON_OGGVORBIS
 #define DX_NON_MODEL
+#endif
+
+#ifdef DX_NON_MULTITHREAD
+	#ifndef DX_NON_ASYNCLOAD
+		#define DX_NON_ASYNCLOAD
+	#endif
+	#ifdef DX_THREAD_SAFE
+		#undef DX_THREAD_SAFE
+	#endif
 #endif
 
 #ifdef DX_NON_INPUTSTRING

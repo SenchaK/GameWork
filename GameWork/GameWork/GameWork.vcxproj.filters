@@ -127,6 +127,10 @@
     <Library Include="DX\vorbisfile_static_x64_d.lib" />
     <Library Include="DX\zlib_x64_d.lib" />
     <Library Include="DX\zlib_x64.lib" />
+    <Library Include="DX\libtiff.lib" />
+    <Library Include="DX\libtiff_d.lib" />
+    <Library Include="DX\libtiff_x64.lib" />
+    <Library Include="DX\libtiff_x64_d.lib" />
   </ItemGroup>
   <ItemGroup>
     <None Include="DX\Thumbs.db" />

@@ -1,8 +1,8 @@
 // -------------------------------------------------------------------------------
 // 
-// 		ＤＸライブラリ		ピクセルスシェーダー関連定義部
+// 		ＤＸライブラリ		ピクセルスシェーダー関連定義
 // 
-// 				Ver 3.09 
+// 				Ver 3.12e
 // 
 // -------------------------------------------------------------------------------
 
@@ -22,8 +22,14 @@
 #define DX_PS_CONSTF_LGT_DIFFUSE                0		// ライトのディフューズカラー
 #define DX_PS_CONSTF_LGT_SPECULAR               1		// ライトのスペキュラカラー
 #define DX_PS_CONSTF_LGT_AMBIENT                2		// ライトのアンビエントカラーとマテリアルのアンビエントカラーを乗算したもの
+#define DX_PS_CONSTF_SHADOW1_DADJ_GRAD_ENBL0_1             18	// シャドウマップ１用の情報( x:閾値深度補正値  y:グラデーション範囲  zw:ライト０・１への適用情報)
+#define DX_PS_CONSTF_SHADOW1_ENBL2_SHADOW2_DADJ_GRAD_ENBL0 19	// シャドウマップ１用の情報( x:ライト２への適用情報 )、シャドウマップ２用の情報( y:閾値深度補正値  z:グラデーション範囲  w:ライト０への適用情報 )
+#define DX_PS_CONSTF_SHADOW2_ENBL1_2_SHADOW3_DADJ_GRAD     20	// シャドウマップ２用の情報( xy:ライト１・２への適用情報)、シャドウマップ３用の情報( z:閾値深度補正値  w:グラデーション範囲 )
+#define DX_PS_CONSTF_SHADOW3_ENBL0_1_2                     21	// シャドウマップ３用の情報( xyz:ライト０～２への適用情報 )
+#define DX_PS_CONSTF_MUL_ALPHA_COLOR            22		// カラーにアルファ値を乗算するかどうか( x( 0.0f:乗算しない  1.0f:乗算する ) yzw( 未使用 ) )
 #define DX_PS_CONSTF_LIGHT2_START               32		// ライト拡張情報の格納開始アドレス
 #define DX_PS_CONSTF_LIGHT2_UNITSIZE            7		// ライト拡張情報一つ辺りに使用するレジスタの数
+#define DX_PS_CONSTB_LIGHT2_NUM                 6		// 適用できるライトの最大数
 #define DX_PS_CONSTF_LGT2_POSITION              0		// ライトの位置( ビュー空間 )
 #define DX_PS_CONSTF_LGT2_DIRECTION             1		// ライトの方向( ビュー空間 )
 #define DX_PS_CONSTF_LGT2_DIFFUSE               2		// ライトのディフーズ色

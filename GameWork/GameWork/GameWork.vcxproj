@@ -141,6 +141,10 @@
     <Library Include="DX\libtheora_static_d.lib" />
     <Library Include="DX\libtheora_static_x64.lib" />
     <Library Include="DX\libtheora_static_x64_d.lib" />
+    <Library Include="DX\libtiff.lib" />
+    <Library Include="DX\libtiff_d.lib" />
+    <Library Include="DX\libtiff_x64.lib" />
+    <Library Include="DX\libtiff_x64_d.lib" />
     <Library Include="DX\ogg_static.lib" />
     <Library Include="DX\ogg_static_d.lib" />
     <Library Include="DX\ogg_static_x64.lib" />

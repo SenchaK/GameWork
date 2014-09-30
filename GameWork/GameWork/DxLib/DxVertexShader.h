@@ -1,8 +1,8 @@
 // -------------------------------------------------------------------------------
 // 
-// 		ＤＸライブラリ		バーテックスシェーダー関連定義部
+// 		ＤＸライブラリ		バーテックスシェーダー関連定義
 // 
-// 				Ver 3.09 
+// 				Ver 3.12e
 // 
 // -------------------------------------------------------------------------------
 
@@ -31,6 +31,10 @@
 #define DX_VS_CONSTF_LGT_AT2_SPOTP0_SPOTP1             6			// ライトの x:距離減衰パラメータ２ y:スポットライト用パラメータ０( cos( Phi / 2.0f ) ) z:スポットライト用パラメータ１( 1.0f / ( cos( Theta / 2.0f ) - cos( Phi / 2.0f ) ) )
 
 #define DX_VS_CONSTF_TOON_OUTLINE_SIZE                 42			// トゥーンレンダリング用の輪郭線の太さ
+#define DX_VS_CONSTF_DIF_SPE_SOURCE                    43			// ディフューズカラーとスペキュラカラーのソース  x:ディフューズカラー( 0.0f:マテリアル  1.0f:頂点 )  y:スペキュラカラー( 0.0f:マテリアル  1.0f:頂点 )
+#define DX_VS_CONSTF_SHADOWMAP1_LIGHT_VIEW_PROJECTION_MAT 44		// シャドウマップ１用のライトビュー行列とライト射影行列を乗算したもの
+#define DX_VS_CONSTF_SHADOWMAP2_LIGHT_VIEW_PROJECTION_MAT 48		// シャドウマップ２用のライトビュー行列とライト射影行列を乗算したもの
+#define DX_VS_CONSTF_SHADOWMAP3_LIGHT_VIEW_PROJECTION_MAT 52		// シャドウマップ３用のライトビュー行列とライト射影行列を乗算したもの
 
 #define DX_VS_CONSTF_TEXTURE_MATRIX_START              88			// テクスチャ座標変換行列の転置行列が格納される定数アドレス
 #define DX_VS_CONSTF_TEXTURE_MATRIX_NUM                3			// テクスチャ座標変換行列の転置行列の数
