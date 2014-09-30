@@ -65,6 +65,21 @@
     <ClInclude Include="lib\memory\shared_ptr.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="DxLib\DxCompileConfig.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="DxLib\DxDataType.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="DxLib\DxDataTypeWin.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="DxLib\DxPixelShader.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="DxLib\DxVertexShader.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Library Include="DX\DxLib.lib" />
@@ -134,5 +149,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="DX\Thumbs.db" />
+    <None Include="DxLib\DxLib.txt" />
   </ItemGroup>
 </Project>

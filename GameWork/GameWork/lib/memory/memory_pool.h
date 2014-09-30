@@ -14,7 +14,7 @@ private :
 		char buf[memory_block_size];
 	};
 	memory m_memory[memory_pool_size];
-	List<memory> m_list;
+	List m_list;
 public :
 	MemoryPool(){
 		memset( m_memory , 0 , sizeof( m_memory ) );
@@ -28,12 +28,12 @@ public :
 	}
 
 	void* Malloc(){
-		memory* m = m_list.pop();
+		memory* m = reinterpret_cast<memory*>( m_list.pop() );
 		return m;
 	}
 
 	void Free( void* p ){
-		m_list.add( (memory*)p );
+		m_list.add( reinterpret_cast<memory*>( p ) );
 	}
 };
 

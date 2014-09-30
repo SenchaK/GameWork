@@ -1,103 +1,80 @@
 #include "DxLib\DxLib.h"
 #include "app\task\task.h"
+#include "app\manager\resource_manager.h"
 #include <cassert>
 #include <crtdbg.h>
+#include <vector>
 
-class Task3 : public Sencha::Task::GameTask {
-private :
-	int x;
-	int y;
-	int frametime;
-public :
-	Task3(){
-		x = 0;
-		y = 0;
-		frametime = 0;
+class GameObject : public Sencha::Task::GameTask {
+protected :
+	float m_x;
+	float m_y;
+public  :
+	GameObject(){
+		this->m_x = 0;
+		this->m_y = 0;
 	}
-	void set( int _x , int _y ){
-		x = _x;
-		y = _y;
-	}
-	virtual void onUpdate(){
-		if( frametime == 30 ){
-			DestroyTask( this );
-		}
-		frametime ++;
-	}
-	virtual void onDraw(){
-		DrawFormatString( x , y , GetColor(128,255,255) , "Task3" );
+	GameObject* pos( float x , float y ){
+		this->m_x = x;
+		this->m_y = y;
+		return this;
 	}
 };
 
-class Task2 : public Sencha::Task::GameTask {
+class PictureObject : public GameObject {
 private :
-	int x;
-	int y;
-	int frametime;
-public :
-	void set( int _x , int _y ){
-		x = _x;
-		y = _y;
+	const Sencha::Sprite* m_sprite;
+	float m_ExRate;
+	float m_Angle;
+	bool m_Turn;
+public  :
+	virtual void onInit() override {
+		this->m_ExRate = 1.0f;
+		this->m_Angle = 0.0f;
+		this->m_Turn = false;
 	}
-	virtual void onInit(){
-		x = 0;
-		y = 0;
-		frametime = 0;
+	void set( const Sencha::Sprite* sprite , float x , float y ){
+		assert( sprite );
+		this->m_sprite = sprite;
+		this->m_x = x;
+		this->m_y = y;
 	}
-
-	virtual void onUpdate(){
-		if( frametime == 10 ){
-			this->insertTaskChild<Task3>()->set( x + 20 , y + 20 );
+	virtual void onDraw() override {
+		if( !this->m_sprite ){
+			return;
 		}
-		if( frametime == 60 ){
-			this->DestroyTask( this );
-		}
-		frametime++;
-	}
-
-	virtual void onDraw(){
-		DrawFormatString( x , y , GetColor(128,128,255) , "Task2" );
-	}
-
-	virtual void onFinish(){
-		printfDx( "onFinish\n" );
+		DrawRotaGraphF( this->m_x , this->m_y , this->m_ExRate , this->m_Angle , this->m_sprite->handle() , TRUE , this->m_Turn );
 	}
 };
 
-class MainTask : public Sencha::Task::GameTask {
+class GameMainTask : public Sencha::Task::GameTask {
 private :
-	int frametime;
-public :
+	size_t frametime;
+public  :
 	virtual void onInit(){
+		Sencha::SpriteCollectionData::tabledefineS dataDefine[] = {
+			{ 1 , "test1" , "resource/img/test1.bmp" , 1 , 1 } , 
+			{ 2 , "right" , "scr_right.png" , 1 , 1 } , 
+		};
 		frametime = 0;
-		printfDx( "MainTask Init\n" );
+		Sencha::ResourceManager::getInstance()->getSprite()->insertCollection( "collection1" , dataDefine , sizeof( dataDefine ) / sizeof( *dataDefine ) );
+		const Sencha::SpriteCollection* coll = Sencha::ResourceManager::getInstance()->getSprite()->findCollection( "collection1" );
+		this->insertTaskChild<PictureObject>()->set( coll->findName( "test1" ) , 320 , 240 );
+		this->insertTaskChild<PictureObject>()->set( coll->findId( 2 ) , 100 , 100 );
 	}
-
 	virtual void onUpdate(){
-		if( frametime == 30 ){
-			this->insertTaskChild<Task2>()->set(   0 , 40 );
-			this->insertTaskChild<Task2>()->set(  50 , 40 );
-			this->insertTaskChild<Task2>()->set( 100 , 40 );
-			this->insertTaskChild<Task2>()->set( 150 , 40 );
-		}
-		if( frametime == 200 ){
-			this->insertTaskChild<Task2>()->set(   0 , 40 );
-			this->insertTaskChild<Task2>()->set(  50 , 40 );
-			this->insertTaskChild<Task2>()->set( 100 , 40 );
-			this->insertTaskChild<Task2>()->set( 150 , 40 );
-		}
-		if( frametime == 250 ){
-			DestroyTask( this );
-		}
 		frametime++;
 	}
-
 	virtual void onDraw(){
-		DrawFormatString( 0 , 20 , GetColor(255,0,255) , "Main Task" );
+		DrawFormatString( 0 , 20 , GetColor(255,0,255) , "GameMain %d" , frametime );
 	}
-
 	virtual void onFinish(){
-		printfDx( "onFinish\n" );
+	}
+	static void* operator new( size_t size ){
+		return Sencha::Task::DefaultNew( size );
+	}
+	static void operator delete( void* p ){
+		Sencha::Task::DefaultDelete( p );
 	}
 };
 
@@ -110,17 +87,17 @@ int WINAPI WinMain( HINSTANCE hInstance , HINSTANCE hPrevInstance , LPSTR lpCmdL
 	ChangeWindowMode( TRUE );
 	DxLib_Init();
 	SetDrawScreen( DX_SCREEN_BACK );
-	GameTask* global = CreateGlobalTask();
-	GameTask* task = global->insertTaskChild<MainTask>();
+	GameTask* mainTask = new GameMainTask();
+	mainTask->onInit();
 	while( ProcessMessage() == 0 ){
 		ClsDrawScreen();
-		global->update();
-		global->draw();
+		mainTask->update();
+		mainTask->draw();
 		DrawFormatString( 0 , 0 , 0xFF00FF , "MemoryPool %d" , Sencha::Task::GetTaskMemoryCount() );
 		ScreenFlip();
 	}
-
-	GameTask::DestroyTask( global );
+	mainTask->onFinish();
+	GameTask::DestroyTask( mainTask );
 	DxLib_End();
 	return 0;
 }

@@ -43,13 +43,11 @@ public :
 
 /*
  * リストオブジェクト
- * 任意の型Tは必ずContainerを継承していなければいけない
  */
-template<typename T>
 class List {
 public :
-	typedef T* container;
-	typedef T* iterator;
+	typedef Container* container;
+	typedef Container* iterator;
 private :
 	container m_top;
 	container m_bottom;

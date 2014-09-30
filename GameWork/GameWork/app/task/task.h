@@ -30,8 +30,8 @@ public :
 class GameTask : public Sencha::Container {
 	friend class TaskManager;
 private :
-	List<Container>* m_parent; // 4byte
-	List<Container> m_child  ; // 8byte
+	List* m_parent           ; // 4byte
+	List m_child             ; // 8byte
 	GameTask* m_parent_task  ; // 4byte
 	int m_delete_check       ; // 4byte
 public :
@@ -146,18 +146,6 @@ private :
 	static void* operator new   ( size_t size );
 	static void  operator delete( void* p );
 };
-
-
-// グローバルタスク
-// 最上位タスク
-class GlobalTask : public GameTask {
-public :
-	static void* operator new   ( size_t size );
-	static void  operator delete( void* p );
-};
-
-// グローバルタスクを生成する。
-GlobalTask* CreateGlobalTask();
 
 // 現在のタスク用メモリブロック個数
 int GetTaskMemoryCount();

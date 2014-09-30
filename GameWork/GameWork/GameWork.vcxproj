@@ -88,8 +88,13 @@
     <ClInclude Include="app\keyboard\DxJoypad.h" />
     <ClInclude Include="app\keyboard\DxKey.h" />
     <ClInclude Include="app\task\task.h" />
+    <ClInclude Include="DxLib\DxCompileConfig.h" />
+    <ClInclude Include="DxLib\DxDataType.h" />
+    <ClInclude Include="DxLib\DxDataTypeWin.h" />
     <ClInclude Include="DxLib\DxDirectX.h" />
     <ClInclude Include="DxLib\DxLib.h" />
+    <ClInclude Include="DxLib\DxPixelShader.h" />
+    <ClInclude Include="DxLib\DxVertexShader.h" />
     <ClInclude Include="lib\keyboard\interface_keyboard.h" />
     <ClInclude Include="lib\keyboard\virtual_keyboard.h" />
     <ClInclude Include="lib\memory\memory_pool.h" />
@@ -163,6 +168,7 @@
     <Library Include="DX\zlib_x64_d.lib" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="DxLib\DxLib.txt" />
     <None Include="DX\Thumbs.db" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

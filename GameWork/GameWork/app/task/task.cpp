@@ -47,6 +47,8 @@ void TaskManager::collect(){
 
 // タスク用メモリ確保関数
 void* DefaultNew( size_t size ){
+	assert( size >= sizeof( GameTask ) );
+	assert( size < MEMORY_BLOCK_SIZE );
 	return (GameTask*)task_pool.Malloc();
 }
 // タスク用メモリ解放関数
@@ -80,7 +82,7 @@ void GameTask::FinishTask( GameTask* task ){
 		return;
 	}
 	task->onFinish();
-	List<Container>::iterator iter = task->m_child.top();
+	List::iterator iter = task->m_child.top();
 	while( iter != NULL ){
 		GameTask* task = (GameTask*)iter;
 		GameTask* next = (GameTask*)iter->next;
@@ -96,7 +98,7 @@ void GameTask::UpdateTask( GameTask* task ){
 		return;
 	}
 	task->onUpdate();
-	List<Container>::iterator iter = task->m_child.top();
+	List::iterator iter = task->m_child.top();
 	while( iter != NULL ){
 		GameTask* task = (GameTask*)iter;
 		GameTask* next = (GameTask*)task->next;
@@ -112,7 +114,7 @@ void GameTask::DrawTask( GameTask* task ){
 		return;
 	}
 	task->onDraw();
-	List<Container>::iterator iter = task->m_child.top();
+	List::iterator iter = task->m_child.top();
 	while( iter != NULL ){
 		GameTask* task = (GameTask*)iter;
 		GameTask* next = (GameTask*)task->next;
@@ -131,8 +133,10 @@ void GameTask::DestroyTask( GameTask* task ){
 	assert( task->m_delete_check == 0 );
 	task->m_delete_check = 1;
 	task->finish();
-	task->m_parent->remove( task );
-	task->m_parent_task = NULL;
+	if( task->m_parent ){
+		task->m_parent->remove( task );
+		task->m_parent_task = NULL;
+	}
 	TaskManager::Instance().checkUnuse( task );
 }
 
@@ -143,22 +147,6 @@ void* GameTask::operator new( size_t size ){
 // static
 void GameTask::operator delete( void* p ){
 	DefaultDelete( p );
-}
-
-
-// static
-void* GlobalTask::operator new( size_t size ){
-	return DefaultNew( size );
-}
-// static
-void GlobalTask::operator delete( void* p ){
-	DefaultDelete( p );
-}
-
-// グローバルタスクを作成する。
-GlobalTask* CreateGlobalTask(){
-	GlobalTask* task = new GlobalTask();
-	return task;
 }
 
 // 現在のタスク用メモリブロック個数
