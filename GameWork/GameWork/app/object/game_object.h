@@ -4,12 +4,15 @@
 #include "../../lib/object/vec2.h"
 #include <memory>
 
+// ゲームで使用するオブジェクトシステム基底
+// オブジェクトには32文字までの名前を付けることができる
+// super 32byte
 class GameObject : public Sencha::Task::GameTask {
 	friend class Layout;
 private :
-	char m_name[32];
-	Vec2 m_localPos;
-	Vec2 m_worldPos;
+	char m_name[32]; // 32byte
+	Vec2 m_localPos; // 8byte
+	Vec2 m_worldPos; // 8byte
 public  :
 	GameObject(){
 		memset( this->m_name , 0 , sizeof( this->m_name ) );
