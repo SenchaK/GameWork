@@ -47,7 +47,36 @@ public :
 class List {
 public :
 	typedef Container* container;
-	typedef Container* iterator;
+
+	class Iterator {
+	private :
+		container m_current;
+		container m_next;
+	public :
+		template<typename T>
+		T* current(){
+			return (T*)m_current;
+		}
+
+		Iterator( container c ){
+			m_current = c;
+			if( m_current ){
+				m_next = m_current->next;
+			}
+		}
+		bool hasMore(){
+			if( m_current ){
+				return true;
+			}
+			return false;
+		}
+		void next(){
+			m_current = m_next;
+			if( m_current ){
+				m_next = m_current->next;
+			}
+		}
+	};
 private :
 	container m_top;
 	container m_bottom;
@@ -62,7 +91,7 @@ public :
 	 */
 	size_t count(){
 		size_t c = 0;
-		iterator iter = m_top;
+		container iter = m_top;
 		while( iter != NULL ){
 			c++;
 			iter = (container)iter->next;
@@ -105,7 +134,7 @@ public :
 			return;
 		}
 
-		iterator iter = m_top;
+		container iter = m_top;
 		while( iter != NULL ){
 			if( iter == item ){
 				iter->remove();
@@ -145,7 +174,7 @@ public :
 		return result;
 	}
 
-	iterator top(){
+	container top(){
 		return m_top;
 	}
 

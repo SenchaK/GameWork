@@ -6,6 +6,7 @@
 class GameMainTask : public Sencha::Task::GameTask {
 private :
 	size_t frametime;
+	Layout* object1;
 public  :
 	virtual void onInit(){
 		Sencha::SpriteCollectionData::tabledefineS dataDefine[] = {
@@ -17,9 +18,12 @@ public  :
 		LayoutXmlLoader loader;
 		GameObject* root = loader.loadFile( "resource/xml/sample_xml.xml" );
 		this->entryTask( root );
+		object1 = (Layout*)root->findObjectByName( "object1" );
 	}
 	virtual void onUpdate(){
 		frametime++;
+		Vec2 pos = object1->localPos();
+		object1->localPos( pos.x + 5 , pos.y );
 	}
 	virtual void onDraw(){
 		DrawFormatString( 0 , 20 , GetColor(255,0,255) , "GameMain %d" , frametime );

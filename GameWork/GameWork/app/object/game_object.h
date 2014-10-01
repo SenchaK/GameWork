@@ -20,10 +20,9 @@ public  :
 	// 自分より下の階層でオブジェクト検索
 	// 該当する名前のオブジェクトを取得する。
 	GameObject* findObjectByName( const char* objectName ){
-		Sencha::List::iterator iter = this->m_child.top();
-		while( iter != NULL ){
-			GameObject* task = (GameObject*)iter;
-			GameObject* next = (GameObject*)task->next;
+		Sencha::List::Iterator iter( this->m_child.top() );
+		while( iter.hasMore() ){
+			GameObject* task = iter.current<GameObject>();
 			if( strcmp( objectName , task->m_name ) == 0 ){
 				return task;
 			}
@@ -31,7 +30,7 @@ public  :
 			if( result ){
 				return result;
 			}
-			iter = next;
+			iter.next();
 		}
 		return NULL;
 	}

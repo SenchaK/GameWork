@@ -74,6 +74,8 @@ void GameTask::finish(){
 	FinishTask( this );
 }
 
+
+
 // static
 // デストラクタ時に呼び出す。
 // 所持する子階層のタスクを全て削除する
@@ -82,12 +84,11 @@ void GameTask::FinishTask( GameTask* task ){
 		return;
 	}
 	task->onFinish();
-	List::iterator iter = task->m_child.top();
-	while( iter != NULL ){
-		GameTask* task = (GameTask*)iter;
-		GameTask* next = (GameTask*)iter->next;
+	List::Iterator iter( task->m_child.top() );
+	while( iter.hasMore() ){
+		GameTask* task = iter.current<GameTask>();
 		GameTask::DestroyTask( task );
-		iter = next;
+		iter.next();
 	}
 }
 
@@ -98,12 +99,11 @@ void GameTask::UpdateTask( GameTask* task ){
 		return;
 	}
 	task->onUpdate();
-	List::iterator iter = task->m_child.top();
-	while( iter != NULL ){
-		GameTask* task = (GameTask*)iter;
-		GameTask* next = (GameTask*)task->next;
+	List::Iterator iter( task->m_child.top() );
+	while( iter.hasMore() ){
+		GameTask* task = iter.current<GameTask>();
 		UpdateTask( task );
-		iter = next;
+		iter.next();
 	}
 }
 
@@ -114,12 +114,11 @@ void GameTask::DrawTask( GameTask* task ){
 		return;
 	}
 	task->onDraw();
-	List::iterator iter = task->m_child.top();
-	while( iter != NULL ){
-		GameTask* task = (GameTask*)iter;
-		GameTask* next = (GameTask*)task->next;
+	List::Iterator iter( task->m_child.top() );
+	while( iter.hasMore() ){
+		GameTask* task = iter.current<GameTask>();
 		DrawTask( task );
-		iter = next;
+		iter.next();
 	}
 }
 
