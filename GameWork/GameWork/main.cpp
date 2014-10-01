@@ -1,67 +1,7 @@
 #include "DxLib\DxLib.h"
 #include "app\task\task.h"
 #include "app\manager\resource_manager.h"
-#include <cassert>
-#include <crtdbg.h>
-#include <vector>
-
-struct Vec2 {
-	float x;
-	float y;
-	void set( float x , float y ){
-		this->x = x;
-		this->y = y;
-	}
-};
-
-class GameObject : public Sencha::Task::GameTask {
-protected :
-	Vec2 m_pos;
-public  :
-	GameObject(){
-		this->m_pos.set( 0 , 0 );
-	}
-	void pos( float x , float y ){
-		this->m_pos.set( x , y );
-	}
-	void pos( Vec2 pos ){
-		this->m_pos = pos;
-	}
-};
-
-// レイアウト管理を行う。
-// GameObjectクラスが子階層に存在する場合、座標を
-// デフォルトのupdateではなく
-class Layout : public GameObject {
-};
-
-class Picture : public GameObject {
-private :
-	const Sencha::Sprite* m_sprite;
-	float m_ExRate;
-	float m_Angle;
-	unsigned char m_Turn;
-	unsigned char m_Trans;
-	unsigned char m_Reserve1;
-	unsigned char m_Reserve2;
-public  :
-	virtual void onInit() override {
-		this->m_ExRate = 1.0f;
-		this->m_Angle = 0.0f;
-		this->m_Turn = FALSE;
-		this->m_Trans = TRUE;
-	}
-	void setSprite( const Sencha::Sprite* sprite ){
-		assert( sprite );
-		this->m_sprite = sprite;
-	}
-	virtual void onDraw() override {
-		if( !this->m_sprite ){
-			return;
-		}
-		DrawRotaGraphF( this->m_pos.x , this->m_pos.y , this->m_ExRate , this->m_Angle , this->m_sprite->handle() , this->m_Trans , this->m_Turn );
-	}
-};
+#include "app\xml\layout_xml_loader.h"
 
 class GameMainTask : public Sencha::Task::GameTask {
 private :
@@ -74,9 +14,9 @@ public  :
 		};
 		frametime = 0;
 		Sencha::ResourceManager::getInstance()->getSprite()->insertCollection( "collection1" , dataDefine , sizeof( dataDefine ) / sizeof( *dataDefine ) );
-		const Sencha::SpriteCollection* coll = Sencha::ResourceManager::getInstance()->getSprite()->findCollection( "collection1" );
-		this->insertTaskChild<Picture>()->setSprite( coll->findName( "test1" ) );
-		this->insertTaskChild<Picture>()->setSprite( coll->findId( 2 ) );
+		LayoutXmlLoader loader;
+		GameObject* root = loader.loadFile( "resource/xml/sample_xml.xml" );
+		this->entryTask( root );
 	}
 	virtual void onUpdate(){
 		frametime++;
@@ -93,6 +33,8 @@ public  :
 		Sencha::Task::DefaultDelete( p );
 	}
 };
+
+
 
 
 

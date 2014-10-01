@@ -19,6 +19,7 @@ public  :
 	SpriteManager* getSprite(){
 		return m_sprite;
 	}
+public :
 	static ResourceManager* getInstance(){
 		if( !instance ){
 			instance = new ResourceManager();

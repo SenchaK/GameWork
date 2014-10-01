@@ -82,6 +82,7 @@
     <ClCompile Include="app\keyboard\DxKey.cpp" />
     <ClCompile Include="app\manager\resource_manager.cpp" />
     <ClCompile Include="app\task\task.cpp" />
+    <ClCompile Include="lib\tinyxml\tinyxml2.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -90,8 +91,11 @@
     <ClInclude Include="app\keyboard\DxKey.h" />
     <ClInclude Include="app\manager\resource_manager.h" />
     <ClInclude Include="app\manager\sprite_manager.h" />
+    <ClInclude Include="app\object\game_object.h" />
     <ClInclude Include="app\sprite\sprite_collection.h" />
     <ClInclude Include="app\task\task.h" />
+    <ClInclude Include="app\xml\layout_xml_loader.h" />
+    <ClInclude Include="app\xml\sprite_xml_loader.h" />
     <ClInclude Include="DxLib\DxCompileConfig.h" />
     <ClInclude Include="DxLib\DxDataType.h" />
     <ClInclude Include="DxLib\DxDataTypeWin.h" />
@@ -104,6 +108,8 @@
     <ClInclude Include="lib\memory\memory_pool.h" />
     <ClInclude Include="lib\memory\shared_ptr.h" />
     <ClInclude Include="lib\object\list.h" />
+    <ClInclude Include="lib\object\vec2.h" />
+    <ClInclude Include="lib\tinyxml\tinyxml2.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="DX\DxDrawFunc.lib" />

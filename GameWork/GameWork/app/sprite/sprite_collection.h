@@ -1,5 +1,6 @@
 #pragma once
 #include "../../DxLib/DxLib.h"
+#include "../../lib/tinyxml/tinyxml2.h"
 #include <vector>
 #include <cassert>
 
@@ -79,10 +80,11 @@ public :
 	// デストラクタ
 	~SpriteCollectionData(){
 	}
-	// ストリームからコレクションデータを作成する。
-	void loadStream();
+
 	// 設定ファイルからコレクションデータを作成する。
+	// 形式はxml形式想定
 	void loadFile( const char* fileName );
+
 	// テーブルデータからコレクションデータを作成する。
 	void loadData( tabledefineS* tabledefine , int length ){
 		assert( length > 0 );

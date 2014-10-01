@@ -29,12 +29,15 @@ public :
 // vtable 4byte
 class GameTask : public Sencha::Container {
 	friend class TaskManager;
-private :
+protected :
 	List* m_parent           ; // 4byte
 	List m_child             ; // 8byte
 	GameTask* m_parent_task  ; // 4byte
 	int m_delete_check       ; // 4byte
 public :
+	GameTask* getParentTask(){
+		return m_parent_task;
+	}
 	// 子タスクの数を取得
 	int childTaskCount(){
 		return this->m_child.count();
