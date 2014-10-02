@@ -9,11 +9,7 @@ private :
 	Layout* object1;
 public  :
 	virtual void onInit(){
-		Sencha::Graph2DCollectionData::tabledefineS dataDefine[] = {
-			{ 1 , "test1" , "resource/img/test1.bmp"     , 1 , 1 } , 
-			{ 5 , "right" , "resource/img/scr_right.png" , 1 , 1 } , 
-		};
-		Sencha::ResourceManager::getInstance()->getSprite()->insertGraph2DCollection( "collection1" , dataDefine , sizeof( dataDefine ) / sizeof( *dataDefine ) );
+		Sencha::ResourceManager::getInstance()->getSprite()->insertGraph2DCollection( "resource/img/xml/menu_ui_00.xml" );
 		frametime = 0;
 		LayoutXmlLoader loader;
 		GameObject* root = loader.loadFile( "resource/xml/sample_xml.xml" );

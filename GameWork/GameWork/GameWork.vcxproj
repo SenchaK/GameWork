@@ -80,9 +80,11 @@
     <ClCompile Include="app\input\app_input.cpp" />
     <ClCompile Include="app\keyboard\DxJoypad.cpp" />
     <ClCompile Include="app\keyboard\DxKey.cpp" />
+    <ClCompile Include="app\manager\graph_manager.cpp" />
     <ClCompile Include="app\manager\resource_manager.cpp" />
     <ClCompile Include="app\graph\graph2d.cpp" />
     <ClCompile Include="app\task\task.cpp" />
+    <ClCompile Include="app\xml\graph_xml_loader.cpp" />
     <ClCompile Include="lib\tinyxml\tinyxml2.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>

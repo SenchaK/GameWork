@@ -57,6 +57,14 @@ public :
 		const char* path;
 		int xNum;
 		int yNum;
+
+		tabledefineS(){	
+			this->gid = 0;
+			memset( this->name , 0 , sizeof( this->name ) );
+			this->path = NULL;
+			this->xNum = 1;
+			this->yNum = 1;
+		}
 	};
 private :
 	lockobject* m_lock;
@@ -87,6 +95,7 @@ private :
 
 
 class Graph2DCollection {
+	friend class GraphXmlLoader;
 public :
 	typedef enum {
 		NAME_SIZE = 32 , 
@@ -98,6 +107,7 @@ private :
 	void setName( const char* name ){
 		strcpy_s<NAME_SIZE>( m_name , name );
 	}
+	void insertTable( Graph2DCollectionData::tabledefineS& tabledefine );
 public  :
 	void release(){
 		this->m_graphData2D.release();
@@ -107,9 +117,6 @@ public  :
 	}
 	Graph2DCollection();
 	Graph2DCollection( const char* name , Graph2DCollectionData::tabledefineS* tabledefine , int length );
-	Graph2DCollection( const char* fileName );
-	void exec( tinyxml2::XMLElement* element );
-	void graphic( tinyxml2::XMLElement* element );
 	const Graph2D* findIndex( int index )       const;
 	const Graph2D* findName( const char* name ) const;
 	const Graph2D* findId( int gid )            const;

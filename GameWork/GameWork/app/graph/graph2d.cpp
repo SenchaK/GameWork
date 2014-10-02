@@ -117,11 +117,13 @@ Graph2DCollection::Graph2DCollection( const char* name , Graph2DCollectionData::
 	this->setName( name );
 	this->m_graphData2D.loadData( tabledefine , length );
 }
-Graph2DCollection::Graph2DCollection( const char* fileName ){
-	tinyxml2::XMLDocument doc;
-	doc.LoadFile( fileName );
-	this->exec( doc.FirstChildElement() );
-	this->m_graphData2D.lock();
+
+void Graph2DCollection::insertTable( Graph2DCollectionData::tabledefineS& tabledefine ){
+	if( tabledefine.xNum * tabledefine.yNum > 1 ){
+		this->m_graphData2D.loadMulti( tabledefine );
+		return;
+	}
+	this->m_graphData2D.loadSingle( tabledefine );
 }
 const Graph2D* Graph2DCollection::findIndex( int index ) const {
 	return this->m_graphData2D.findIndex( index );
@@ -133,41 +135,7 @@ const Graph2D* Graph2DCollection::findId( int gid ) const {
 	return this->m_graphData2D.findId( gid );
 }
 
-void Graph2DCollection::exec( tinyxml2::XMLElement* element ){
-	if( strcmp( element->Name() , "graphic_collection" ) == 0 ){
-		strcpy_s<NAME_SIZE>( this->m_name , element->Attribute( "name" ) );
-		for( tinyxml2::XMLElement* e = element->FirstChildElement() ; e ; e = e->NextSiblingElement() ){
-			if( strcmp( e->Name() , "graphic" ) == 0 ){
-				this->graphic( e );
-			}
-		}
-	}
-}
 
-void Graph2DCollection::graphic( tinyxml2::XMLElement* element ){
-	Graph2DCollectionData::tabledefineS table;
-	if( element->Attribute( "name" ) ){
-		this->setName( element->Attribute( "name" ) );
-	}
-	if( element->Attribute( "path" ) ){
-		table.path = element->Attribute( "path" );
-	}
-	if( element->Attribute( "gid" ) ){
-		table.gid = element->IntAttribute( "gid" );
-	}
-	if( element->Attribute( "x" ) ){
-		table.xNum = element->IntAttribute( "x" );
-	}
-	if( element->Attribute( "y" ) ){
-		table.yNum = element->IntAttribute( "y" );
-	}
-
-	if( table.xNum * table.yNum > 1 ){
-		this->m_graphData2D.loadMulti( table );
-		return;
-	}
-	this->m_graphData2D.loadSingle( table );
-}
 
 
 } // namespace Sencha

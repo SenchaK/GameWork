@@ -1,5 +1,5 @@
 <graphic_collection name="menu_ui_00">
 	<graphic gid="1" name="test1" path="resource/img/test1.bmp" />
-	<graphic gid="2" name="right" path="scr_right.png" />
+	<graphic gid="2" name="right" path="resource/img/scr_right.png" />
 </graphic_collection>
 
