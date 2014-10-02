@@ -36,21 +36,21 @@ private :
 				const char* collectionName = NULL;	
 				const char* name = NULL;
 				int gid = 0;
-				const char* spriteName = NULL;
+				const char* gname = NULL;
 				if( e->Attribute( "x"          ) ){ x              = e->DoubleAttribute( "x" );          }
 				if( e->Attribute( "y"          ) ){ y              = e->DoubleAttribute( "y" );          }
 				if( e->Attribute( "name"       ) ){ name           = e->Attribute( "name" );             }
-				if( e->Attribute( "spriteName" ) ){ spriteName     = e->Attribute( "spriteName" );       }
-				if( e->Attribute( "gid"   ) ){ gid       = e->IntAttribute( "gid" );      }
+				if( e->Attribute( "gname" ) )     { gname          = e->Attribute( "gname" );            }
+				if( e->Attribute( "gid"   ) )     { gid            = e->IntAttribute( "gid" );           }
 				if( e->Attribute( "collection" ) ){ collectionName = e->Attribute( "collection" );       }
 
 				collectionName = e->Attribute( "collection" );
 				const Sencha::Graph2DCollection* collection = Sencha::ResourceManager::getInstance()->getSprite()->findCollection( collectionName );
 				assert( collection );
 				const Sencha::Graph2D* sprite = collection->findId( gid );
-				if( !sprite ){
-					assert( spriteName );
-					sprite = collection->findName( spriteName );
+				if( !gid ){
+					assert( gname );
+					sprite = collection->findName( gname );
 				}
 				assert( sprite );
 
