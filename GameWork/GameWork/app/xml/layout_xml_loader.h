@@ -35,19 +35,19 @@ private :
 				double y = 0;
 				const char* collectionName = NULL;	
 				const char* name = NULL;
-				int spriteId = 0;
+				int gid = 0;
 				const char* spriteName = NULL;
 				if( e->Attribute( "x"          ) ){ x              = e->DoubleAttribute( "x" );          }
 				if( e->Attribute( "y"          ) ){ y              = e->DoubleAttribute( "y" );          }
 				if( e->Attribute( "name"       ) ){ name           = e->Attribute( "name" );             }
 				if( e->Attribute( "spriteName" ) ){ spriteName     = e->Attribute( "spriteName" );       }
-				if( e->Attribute( "spriteId"   ) ){ spriteId       = e->IntAttribute( "spriteId" );      }
+				if( e->Attribute( "gid"   ) ){ gid       = e->IntAttribute( "gid" );      }
 				if( e->Attribute( "collection" ) ){ collectionName = e->Attribute( "collection" );       }
 
 				collectionName = e->Attribute( "collection" );
-				const Sencha::SpriteCollection* collection = Sencha::ResourceManager::getInstance()->getSprite()->findCollection( collectionName );
+				const Sencha::Graph2DCollection* collection = Sencha::ResourceManager::getInstance()->getSprite()->findCollection( collectionName );
 				assert( collection );
-				const Sencha::Sprite* sprite = collection->findId( spriteId );
+				const Sencha::Graph2D* sprite = collection->findId( gid );
 				if( !sprite ){
 					assert( spriteName );
 					sprite = collection->findName( spriteName );

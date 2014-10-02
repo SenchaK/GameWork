@@ -6,18 +6,18 @@ namespace Sencha {
 class ResourceManager {
 private :
 	static ResourceManager* instance;
-	SpriteManager* m_sprite;
+	GraphManager* m_graph2d;
 
 	ResourceManager(){
-		m_sprite = new SpriteManager();
+		m_graph2d = new GraphManager();
 	}
 	void release(){
-		m_sprite->clearCollection();
-		delete m_sprite;
+		m_graph2d->clearGraph2DCollection();
+		delete m_graph2d;
 	}
 public  :
-	SpriteManager* getSprite(){
-		return m_sprite;
+	GraphManager* getSprite(){
+		return m_graph2d;
 	}
 public :
 	static ResourceManager* getInstance(){

@@ -1,6 +1,6 @@
 #pragma once
 #include "../task/task.h"
-#include "../sprite/sprite_collection.h"
+#include "../graph/graph2d.h"
 #include "../../lib/object/vec2.h"
 #include <memory>
 
@@ -81,7 +81,7 @@ public :
 
 class Picture : public GameObject {
 private :
-	const Sencha::Sprite* m_sprite;
+	const Sencha::Graph2D* m_graph2d;
 	float m_ExRate;
 	float m_Angle;
 	unsigned char m_Turn;
@@ -95,13 +95,13 @@ public  :
 		this->m_Turn = FALSE;
 		this->m_Trans = TRUE;
 	}
-	void setSprite( const Sencha::Sprite* sprite ){
+	void setSprite( const Sencha::Graph2D* sprite ){
 		assert( sprite );
-		this->m_sprite = sprite;
+		this->m_graph2d = sprite;
 	}
 	virtual void onDraw() override {
-		if( this->m_sprite ){
-			DrawRotaGraphF( this->worldPos().x , this->worldPos().y , this->m_ExRate , this->m_Angle , this->m_sprite->handle() , this->m_Trans , this->m_Turn );
+		if( this->m_graph2d ){
+			DrawRotaGraphF( this->worldPos().x , this->worldPos().y , this->m_ExRate , this->m_Angle , this->m_graph2d->handle() , this->m_Trans , this->m_Turn );
 		}
 	}
 };

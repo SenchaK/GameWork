@@ -9,12 +9,12 @@ private :
 	Layout* object1;
 public  :
 	virtual void onInit(){
-		Sencha::SpriteCollectionData::tabledefineS dataDefine[] = {
-			{ 1 , "test1" , "resource/img/test1.bmp" , 1 , 1 } , 
-			{ 5 , "right" , "scr_right.png"          , 1 , 1 } , 
+		Sencha::Graph2DCollectionData::tabledefineS dataDefine[] = {
+			{ 1 , "test1" , "resource/img/test1.bmp"     , 1 , 1 } , 
+			{ 5 , "right" , "resource/img/scr_right.png" , 1 , 1 } , 
 		};
+		Sencha::ResourceManager::getInstance()->getSprite()->insertGraph2DCollection( "collection1" , dataDefine , sizeof( dataDefine ) / sizeof( *dataDefine ) );
 		frametime = 0;
-		Sencha::ResourceManager::getInstance()->getSprite()->insertCollection( "collection1" , dataDefine , sizeof( dataDefine ) / sizeof( *dataDefine ) );
 		LayoutXmlLoader loader;
 		GameObject* root = loader.loadFile( "resource/xml/sample_xml.xml" );
 		this->entryTask( root );

@@ -1,7 +1,5 @@
 #pragma once
 
 #include "../../lib/tinyxml/tinyxml2.h"
-class SpriteXmlLoader {
-private :
-public  :
-};
+#include "../graph/graph2d.h"
+#include <vector>

@@ -1,5 +1,5 @@
 #pragma once
-#include "../sprite/sprite_collection.h"
+#include "../graph/graph2d.h"
 #include <list>
 
 namespace Sencha {
@@ -9,12 +9,12 @@ namespace Sencha {
  * コレクションという単位で複数のスプライトを管理し、名前を振り分ける。
  * アプリ層は名前を指定してスプライトコレクションを取得してそこから必要なスプライトを使用する。
  */
-class SpriteManager {
+class GraphManager {
 private :
-	std::list<SpriteCollection*> m_collection;
+	std::list<Graph2DCollection*> m_collection;
 private :
-	SpriteCollection* getCollection( const char* name ){
-		for( std::list<SpriteCollection*>::iterator iter = this->m_collection.begin() ; iter != this->m_collection.end() ; iter++ ){
+	Graph2DCollection* getCollection( const char* name ){
+		for( std::list<Graph2DCollection*>::iterator iter = this->m_collection.begin() ; iter != this->m_collection.end() ; iter++ ){
 			if( strcmp( (*iter)->name() , name ) == 0 ){
 				return (*iter);
 			}
@@ -22,24 +22,27 @@ private :
 		return NULL;
 	}
 public  :
-	SpriteManager(){
+	GraphManager(){
 	}
-	const SpriteCollection* findCollection( const char* name ){
+	const Graph2DCollection* findCollection( const char* name ){
 		return this->getCollection( name );
 	}
-	void insertCollection( const char* name , SpriteCollectionData::tabledefineS* tabledefine , int length ){
-		this->m_collection.push_back( new SpriteCollection( name , tabledefine , length ) );
+	void insertGraph2DCollection( const char* name , Graph2DCollectionData::tabledefineS* tabledefine , int length ){
+		this->m_collection.push_back( new Graph2DCollection( name , tabledefine , length ) );
 	}
-	void releaseCollection( const char* name ){
-		SpriteCollection* c = this->getCollection( name );
+	void insertGraph2DCollection( const char* fileName ){
+		this->m_collection.push_back( new Graph2DCollection( fileName ) );
+	}
+	void releaseGraph2DCollection( const char* name ){
+		Graph2DCollection* c = this->getCollection( name );
 		if( c ){
 			this->m_collection.remove( c );
 			c->release();
 			delete c;
 		}
 	}
-	void clearCollection(){
-		std::list<SpriteCollection*>::iterator iter = this->m_collection.begin();
+	void clearGraph2DCollection(){
+		std::list<Graph2DCollection*>::iterator iter = this->m_collection.begin();
 		while( iter != this->m_collection.end() ){
 			(*iter)->release();
 			delete (*iter);

@@ -36,6 +36,9 @@
     <ClCompile Include="lib\tinyxml\tinyxml2.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="app\graph\graph2d.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DxLib\DxDirectX.h">
@@ -86,9 +89,6 @@
     <ClInclude Include="DxLib\DxVertexShader.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="app\sprite\sprite_collection.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="app\manager\sprite_manager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -107,7 +107,10 @@
     <ClInclude Include="app\xml\layout_xml_loader.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="app\xml\sprite_xml_loader.h">
+    <ClInclude Include="app\xml\graph_xml_loader.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="app\graph\graph2d.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

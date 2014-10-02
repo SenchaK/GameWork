@@ -81,6 +81,7 @@
     <ClCompile Include="app\keyboard\DxJoypad.cpp" />
     <ClCompile Include="app\keyboard\DxKey.cpp" />
     <ClCompile Include="app\manager\resource_manager.cpp" />
+    <ClCompile Include="app\graph\graph2d.cpp" />
     <ClCompile Include="app\task\task.cpp" />
     <ClCompile Include="lib\tinyxml\tinyxml2.cpp" />
     <ClCompile Include="main.cpp" />
@@ -92,10 +93,10 @@
     <ClInclude Include="app\manager\resource_manager.h" />
     <ClInclude Include="app\manager\sprite_manager.h" />
     <ClInclude Include="app\object\game_object.h" />
-    <ClInclude Include="app\sprite\sprite_collection.h" />
+    <ClInclude Include="app\graph\graph2d.h" />
     <ClInclude Include="app\task\task.h" />
     <ClInclude Include="app\xml\layout_xml_loader.h" />
-    <ClInclude Include="app\xml\sprite_xml_loader.h" />
+    <ClInclude Include="app\xml\graph_xml_loader.h" />
     <ClInclude Include="DxLib\DxCompileConfig.h" />
     <ClInclude Include="DxLib\DxDataType.h" />
     <ClInclude Include="DxLib\DxDataTypeWin.h" />
