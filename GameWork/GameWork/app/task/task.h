@@ -84,6 +84,7 @@ public :
 	// insert‚Æˆá‚¢¶¬‚µ‚È‚¢ˆ×AonInit‚àŒÄ‚Î‚ê‚È‚¢
 	// “o˜^‚³‚ê‚é‘¤‚Ìƒ^ƒXƒN‚ÍeqŠK‘w‚ğ‚Á‚Ä‚¢‚È‚¢ó‘Ô‚Å‚ ‚é‚±‚Æ‚ª‘O’ñ(–‘O‚Éremove‚µ‚Ä‚¨‚­‚±‚Æ)
 	void entryTask( GameTask* task ){
+		assert( task );
 		assert( !task->m_parent );
 		assert( !task->m_parent_task );
 		this->m_child.add( task );

@@ -2,5 +2,9 @@
 	<layout name="object1" x="100" y="240">
 		<graphic name="object2" collection="menu_ui_00" gname="test1" x="0" y="0" />
 		<graphic name="object3" collection="menu_ui_00" gname="right" x="150" y="-100" />
+		<layout name="object4" x="100" y="80">
+			<graphic name="object5" collection="menu_ui_00" gname="test1" x="230" y="0" />
+			<graphic name="object6" collection="menu_ui_00" gname="right" x="450" y="-100" />
+		</layout>
 	</layout>
 </root>

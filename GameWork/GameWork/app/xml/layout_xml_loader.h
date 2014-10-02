@@ -7,16 +7,20 @@
 class LayoutXmlLoader {
 private :
 	tinyxml2::XMLDocument m_doc;
-	GameObject* m_lyt;
 public :
 	GameObject* loadFile( const char* fileName ){
-		this->m_lyt = new Layout();
 		this->m_doc.LoadFile( fileName );
-		this->exec( this->m_lyt , this->m_doc.FirstChildElement() );
-		return m_lyt;
+		GameObject* root = new Layout();
+		return this->exec( root , this->m_doc.FirstChildElement() );
+	}
+	GameObject* loadAndEntryFile( const char* fileName , Sencha::Task::GameTask* parent ){
+		assert( parent );
+		GameObject* obj = this->loadFile( fileName );
+		parent->entryTask( obj );
+		return obj;
 	}
 private :
-	void exec( GameObject* parent , tinyxml2::XMLElement* element ){
+	GameObject* exec( GameObject* parent , tinyxml2::XMLElement* element ){
 		for( tinyxml2::XMLElement* e = element->FirstChildElement() ; e ; e = e->NextSiblingElement() ){
 			if( strcmp( e->Name() , "layout" ) == 0 ){
 				Layout* lyt = parent->insertTaskChild<Layout>();
@@ -31,6 +35,7 @@ private :
 				this->exec( lyt , e );
 			}
 			else if( strcmp( e->Name() , "graphic" ) == 0 ){
+				Picture* pict = parent->insertTaskChild<Picture>();
 				double x = 0;
 				double y = 0;
 				const char* collectionName = NULL;	
@@ -53,13 +58,14 @@ private :
 					sprite = collection->findName( gname );
 				}
 				assert( sprite );
-
-				Picture* pict = parent->insertTaskChild<Picture>();
 				pict->name( name );
 				pict->localPos( (float)x , (float)y );
 				pict->setSprite( sprite );
 				this->exec( pict , e );
 			}
 		}
+		return parent;
 	}
+
+#undef CREATE_IF_NOT_EXIST
 };

@@ -89,6 +89,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="app\exception\Exception.h" />
     <ClInclude Include="app\input\app_input.h" />
     <ClInclude Include="app\keyboard\DxJoypad.h" />
     <ClInclude Include="app\keyboard\DxKey.h" />
@@ -110,6 +111,7 @@
     <ClInclude Include="lib\keyboard\virtual_keyboard.h" />
     <ClInclude Include="lib\memory\memory_pool.h" />
     <ClInclude Include="lib\memory\shared_ptr.h" />
+    <ClInclude Include="lib\object\color.h" />
     <ClInclude Include="lib\object\list.h" />
     <ClInclude Include="lib\object\vec2.h" />
     <ClInclude Include="lib\tinyxml\tinyxml2.h" />
