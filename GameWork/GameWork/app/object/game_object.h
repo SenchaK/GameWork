@@ -40,10 +40,14 @@ public  :
 	class ObjectNotFoundException : public Exception {
 	public :
 		const char* message;
-		ObjectNotFoundException( const char* objectName , const type_info& info ){ sprintf_s<Exception::MESSAGE_LEN>( buf , 
+		ObjectNotFoundException( const char* objectName , const type_info& info ){ 
+sprintf_s<Exception::MESSAGE_LEN>(
+buf , 
 "findObjectByName Failure!!\n"
 "objectName:%s\n"
-"Type:%s\n" , objectName , info.name() ); }
+"Type:%s\n" , 
+objectName , 
+info.name() ); }
 	};
 
 	GameObject(){
@@ -141,6 +145,7 @@ public  :
 			SetDrawBright( this->m_color.r , this->m_color.g , this->m_color.b );
 			DrawRotaGraphF( this->worldPos().x , this->worldPos().y , this->m_ExRate , this->m_Angle , this->m_graph2d->handle() , this->m_Trans , this->m_Turn );
 			SetDrawBlendMode( DX_BLENDMODE_NOBLEND , 0 );
+			SetDrawBright( 255 , 255 , 255 );
 		}
 	}
 };

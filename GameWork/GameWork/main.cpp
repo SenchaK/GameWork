@@ -2,48 +2,72 @@
 #include "app\task\task.h"
 #include "app\manager\resource_manager.h"
 #include "app\xml\layout_xml_loader.h"
+#include "lib\memory\memory_pool.h"
 
-class MotionTask : public Sencha::Task::GameTask {
-private :
-	Picture* pict;
-	int frametime;
+namespace Collision {
+	Sencha::MemoryPool<64,2048> collision_memory;
+}
+
+namespace Affine {
+	//À•W‰ñ“]
+	//(x0,y0)‚©‚ç(mx,my)‚ðŠî€‚ÉangŠp‰ñ“]‚µ‚½Šp“x‚ð(x,y)‚É‚¢‚ê‚é
+	void conv_pos0(double *x, double *y, double x0, double y0, double mx, double my,double ang){
+		double ox=x0-mx,oy=y0-my;
+		*x=ox*cos(ang) +oy*sin(ang);
+		*y=-ox*sin(ang)+oy*cos(ang);
+		*x+=mx;
+		*y+=my;
+	}
+};
+
+class Collider {
 public :
-	void set( Picture* pict ){
-		this->pict = pict;
-		this->frametime = 0;
+	class EventHandler abstract {
+	public :
+		virtual void onHit( Collider* collider ) = 0;
+		virtual void onHitTrg( Collider* collider ) = 0;
+	};
+public :
+	static void* operator new( size_t size ){
+		assert( size < 128 );
+		return Collision::collision_memory.Malloc();
 	}
-	virtual void onUpdate() override {
-		Vec2 pos = pict->localPos();
-		pos.x -= 5;
-		pict->localPos( pos );
-		if( frametime == 60 ){
-			DestroyTask( this );
-			return;
-		}
-		this->frametime++;
+	static void operator delete( void* p ){
+		Collision::collision_memory.Free( p );
 	}
+};
+
+class Sphere2D : public Collider {
+private :
+	Vec2 m_pos;
+	float m_r;
+public  :
+	// ŽO•½•û‚Ì’è—‚É‚æ‚é‰~Œ`‚ÌÚG”»’è
+	// “–‚½‚Á‚Ä‚¢‚½‚çtrue
+	static bool Judge( Sphere2D* sphere1 , Sphere2D* sphere2 ){
+		float dx,dy,r;
+		dx = sphere1->m_pos.x - sphere2->m_pos.x; //…•½•ûŒü‚Ì‹——£
+		dy = sphere1->m_pos.y - sphere2->m_pos.y; //‰”’¼•ûŒü‚Ì‹——£
+		r  = sphere1->m_r     + sphere2->m_r    ; //”¼Œa‚Ì˜a
+		return ( ( dx * dx ) + ( dy * dy ) < ( r*r ) );
+	}
+};
+
+class Box2D : public Collider {
+private :
+	Vec2 m_point[4];
+public  :
 };
 
 class GameMainTask : public Sencha::Task::GameTask {
 private :
 	size_t frametime;
-	Layout* object4;
-	Picture* object5;
-	Picture* object6;
 public  :
 	virtual void onInit(){
 		Sencha::ResourceManager::getInstance()->getSprite()->insertGraph2DCollection( "resource/img/xml/menu_ui_00.xml" );
 		frametime = 0;
-		LayoutXmlLoader loader;
-		GameObject* root = loader.loadAndEntryFile( "resource/xml/sample_xml.xml" , this );
-		object4 = root->findObjectByName<Layout>( "object4" );
-		object5 = object4->findObjectByName<Picture>( "object5" );
-		object6 = object4->findObjectByName<Picture>( "object6" );
 	}
 	virtual void onUpdate(){
-		if( frametime == 30 ){
-			this->insertTaskChild<MotionTask>()->set( object6 );
-		}
 		frametime++;
 	}
 	virtual void onDraw(){
