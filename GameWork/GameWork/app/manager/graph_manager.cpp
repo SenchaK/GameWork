@@ -1,4 +1,4 @@
-#include "sprite_manager.h"
+#include "graph_manager.h"
 #include "../xml/graph_xml_loader.h"
 
 namespace Sencha {

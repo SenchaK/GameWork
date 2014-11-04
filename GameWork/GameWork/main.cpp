@@ -64,7 +64,7 @@ private :
 	size_t frametime;
 public  :
 	virtual void onInit(){
-		Sencha::ResourceManager::getInstance()->getSprite()->insertGraph2DCollection( "resource/img/xml/menu_ui_00.xml" );
+		Sencha::ResourceManager::getInstance()->getGraph()->insertGraph2DCollection( "resource/img/xml/menu_ui_00.xml" );
 		frametime = 0;
 	}
 	virtual void onUpdate(){

@@ -1,5 +1,5 @@
 #pragma once
-#include "sprite_manager.h"
+#include "graph_manager.h"
 
 
 namespace Sencha {
@@ -16,7 +16,7 @@ private :
 		delete m_graph2d;
 	}
 public  :
-	GraphManager* getSprite(){
+	GraphManager* getGraph(){
 		return m_graph2d;
 	}
 public :

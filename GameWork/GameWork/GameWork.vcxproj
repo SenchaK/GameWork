@@ -94,7 +94,7 @@
     <ClInclude Include="app\keyboard\DxJoypad.h" />
     <ClInclude Include="app\keyboard\DxKey.h" />
     <ClInclude Include="app\manager\resource_manager.h" />
-    <ClInclude Include="app\manager\sprite_manager.h" />
+    <ClInclude Include="app\manager\graph_manager.h" />
     <ClInclude Include="app\object\game_object.h" />
     <ClInclude Include="app\graph\graph2d.h" />
     <ClInclude Include="app\task\task.h" />

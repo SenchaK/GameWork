@@ -50,7 +50,7 @@ private :
 				if( e->Attribute( "collection" ) ){ collectionName = e->Attribute( "collection" );       }
 
 				collectionName = e->Attribute( "collection" );
-				const Sencha::Graph2DCollection* collection = Sencha::ResourceManager::getInstance()->getSprite()->findCollection( collectionName );
+				const Sencha::Graph2DCollection* collection = Sencha::ResourceManager::getInstance()->getGraph()->findCollection( collectionName );
 				assert( collection );
 				const Sencha::Graph2D* sprite = collection->findId( gid );
 				if( !gid ){
