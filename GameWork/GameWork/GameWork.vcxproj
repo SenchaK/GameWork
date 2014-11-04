@@ -80,6 +80,7 @@
     <ClCompile Include="app\input\app_input.cpp" />
     <ClCompile Include="app\keyboard\DxJoypad.cpp" />
     <ClCompile Include="app\keyboard\DxKey.cpp" />
+    <ClCompile Include="app\manager\game_frame.cpp" />
     <ClCompile Include="app\manager\graph_manager.cpp" />
     <ClCompile Include="app\manager\resource_manager.cpp" />
     <ClCompile Include="app\graph\graph2d.cpp" />
@@ -93,6 +94,7 @@
     <ClInclude Include="app\input\app_input.h" />
     <ClInclude Include="app\keyboard\DxJoypad.h" />
     <ClInclude Include="app\keyboard\DxKey.h" />
+    <ClInclude Include="app\manager\game_frame.h" />
     <ClInclude Include="app\manager\resource_manager.h" />
     <ClInclude Include="app\manager\graph_manager.h" />
     <ClInclude Include="app\object\game_object.h" />
