@@ -14,7 +14,4 @@
 *.cache
 *.rc
 *.idb
-*.lib
 *.db
-GameWork/GameWork/DxLib
-GameWork/GameWork/lib/tinyxml
