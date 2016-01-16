@@ -5,7 +5,6 @@
 #include "lib\memory\memory_pool.h"
 #include "app\manager\game_frame.h"
 
-
 class GameMainTask : public Sencha::GameFrameTask {
 private :
 	size_t m_frametime;

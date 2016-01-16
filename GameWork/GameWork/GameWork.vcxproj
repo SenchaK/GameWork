@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -20,12 +20,14 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -52,10 +54,12 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <AdditionalIncludeDirectories>C:\Users\Sencha\Documents\Projects\GameWork\GameWork\GameWork\DxLib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\Users\Sencha\Documents\Projects\GameWork\GameWork\GameWork\DxLib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -102,13 +106,8 @@
     <ClInclude Include="app\task\task.h" />
     <ClInclude Include="app\xml\layout_xml_loader.h" />
     <ClInclude Include="app\xml\graph_xml_loader.h" />
-    <ClInclude Include="DxLib\DxCompileConfig.h" />
-    <ClInclude Include="DxLib\DxDataType.h" />
-    <ClInclude Include="DxLib\DxDataTypeWin.h" />
     <ClInclude Include="DxLib\DxDirectX.h" />
     <ClInclude Include="DxLib\DxLib.h" />
-    <ClInclude Include="DxLib\DxPixelShader.h" />
-    <ClInclude Include="DxLib\DxVertexShader.h" />
     <ClInclude Include="lib\keyboard\interface_keyboard.h" />
     <ClInclude Include="lib\keyboard\virtual_keyboard.h" />
     <ClInclude Include="lib\memory\memory_pool.h" />
@@ -119,73 +118,6 @@
     <ClInclude Include="lib\tinyxml\tinyxml2.h" />
   </ItemGroup>
   <ItemGroup>
-    <Library Include="DX\DxDrawFunc.lib" />
-    <Library Include="DX\DxDrawFunc_d.lib" />
-    <Library Include="DX\DxDrawFunc_x64.lib" />
-    <Library Include="DX\DxDrawFunc_x64_d.lib" />
-    <Library Include="DX\DxLib.lib" />
-    <Library Include="DX\DxLibW.lib" />
-    <Library Include="DX\DxLibW_d.lib" />
-    <Library Include="DX\DxLibW_x64.lib" />
-    <Library Include="DX\DxLibW_x64_d.lib" />
-    <Library Include="DX\DxLib_d.lib" />
-    <Library Include="DX\DxLib_x64.lib" />
-    <Library Include="DX\DxLib_x64_d.lib" />
-    <Library Include="DX\DxUseCLib.lib" />
-    <Library Include="DX\DxUseCLibW.lib" />
-    <Library Include="DX\DxUseCLibW_d.lib" />
-    <Library Include="DX\DxUseCLibW_x64.lib" />
-    <Library Include="DX\DxUseCLibW_x64_d.lib" />
-    <Library Include="DX\DxUseCLib_d.lib" />
-    <Library Include="DX\DxUseCLib_x64.lib" />
-    <Library Include="DX\DxUseCLib_x64_d.lib" />
-    <Library Include="DX\libbulletcollision_vc6.lib" />
-    <Library Include="DX\libbulletcollision_vc6_d.lib" />
-    <Library Include="DX\libbulletcollision_vc8_x64.lib" />
-    <Library Include="DX\libbulletcollision_vc8_x64_d.lib" />
-    <Library Include="DX\libbulletdynamics_vc6.lib" />
-    <Library Include="DX\libbulletdynamics_vc6_d.lib" />
-    <Library Include="DX\libbulletdynamics_vc8_x64.lib" />
-    <Library Include="DX\libbulletdynamics_vc8_x64_d.lib" />
-    <Library Include="DX\libbulletmath_vc6.lib" />
-    <Library Include="DX\libbulletmath_vc6_d.lib" />
-    <Library Include="DX\libbulletmath_vc8_x64.lib" />
-    <Library Include="DX\libbulletmath_vc8_x64_d.lib" />
-    <Library Include="DX\libjpeg.lib" />
-    <Library Include="DX\libjpeg_d.lib" />
-    <Library Include="DX\libjpeg_x64.lib" />
-    <Library Include="DX\libjpeg_x64_d.lib" />
-    <Library Include="DX\libpng.lib" />
-    <Library Include="DX\libpng_d.lib" />
-    <Library Include="DX\libpng_x64.lib" />
-    <Library Include="DX\libpng_x64_d.lib" />
-    <Library Include="DX\libtheora_static.lib" />
-    <Library Include="DX\libtheora_static_d.lib" />
-    <Library Include="DX\libtheora_static_x64.lib" />
-    <Library Include="DX\libtheora_static_x64_d.lib" />
-    <Library Include="DX\libtiff.lib" />
-    <Library Include="DX\libtiff_d.lib" />
-    <Library Include="DX\libtiff_x64.lib" />
-    <Library Include="DX\libtiff_x64_d.lib" />
-    <Library Include="DX\ogg_static.lib" />
-    <Library Include="DX\ogg_static_d.lib" />
-    <Library Include="DX\ogg_static_x64.lib" />
-    <Library Include="DX\ogg_static_x64_d.lib" />
-    <Library Include="DX\vorbisfile_static.lib" />
-    <Library Include="DX\vorbisfile_static_d.lib" />
-    <Library Include="DX\vorbisfile_static_x64.lib" />
-    <Library Include="DX\vorbisfile_static_x64_d.lib" />
-    <Library Include="DX\vorbis_static.lib" />
-    <Library Include="DX\vorbis_static_d.lib" />
-    <Library Include="DX\vorbis_static_x64.lib" />
-    <Library Include="DX\vorbis_static_x64_d.lib" />
-    <Library Include="DX\ZLIB.LIB" />
-    <Library Include="DX\zlib_d.lib" />
-    <Library Include="DX\zlib_x64.lib" />
-    <Library Include="DX\zlib_x64_d.lib" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="DxLib\DxLib.txt" />
     <None Include="DX\Thumbs.db" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

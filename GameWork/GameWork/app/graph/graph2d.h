@@ -15,7 +15,7 @@ namespace Sencha {
 // 1スプライトに付き1インスタンスとして管理する。(アトラスの場合は1枚1枚分離する)
 class Graph2D {
 public :
-	typedef enum {
+	enum {
 		NAME_SIZE = 32 ,
 	};
 private :
@@ -97,7 +97,7 @@ private :
 class Graph2DCollection {
 	friend class GraphXmlLoader;
 public :
-	typedef enum {
+	enum {
 		NAME_SIZE = 32 , 
 	};
 private :

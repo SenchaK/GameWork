@@ -2,7 +2,7 @@
 // 
 // 		ＤＸライブラリ		データタイプ定義ヘッダファイル
 // 
-// 				Ver 3.12e
+// 				Ver 3.15a
 // 
 // -------------------------------------------------------------------------------
 
@@ -13,11 +13,19 @@
 #include "DxCompileConfig.h"
 #include <stdio.h>
 
-#if !defined( __ANDROID )
+#ifdef __WINDOWS__
 #include "DxDataTypeWin.h"
 #endif
 
-#if defined( __ANDROID )
+#ifdef __PSVITA
+#include "DxDataTypePSVita.h"
+#endif
+
+#ifdef __PS4
+#include "DxDataTypePS4.h"
+#endif
+
+#ifdef __ANDROID
 #include "DxDataTypeAndroid.h"
 #endif
 
